@@ -128,5 +128,5 @@ user_id' - used for when you want to be checked for if you get pinged.<br><br>
 
 <h1>LICENSE</h1>
 <h3>
-This software is under a <a href="https://choosealicense.com/licenses/mit/">MIT License</a>, meaning you can change this code to however you like without my knowledge, this is free and open source as so it is yours to do with what you please, I would only ask that you wouldn't embed any malicious code alongside perpetual.
+This software is under a <a href="https://choosealicense.com/licenses/mit/">MIT License</a>, meaning you can change this code to however you like without my knowledge, this is free and open source as so it is yours to do with what you please, I would only ask that you wouldn't embed any malicious code alongside nano.
 </h3>
