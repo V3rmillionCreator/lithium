@@ -12,17 +12,17 @@ def firstLaunch():
     try:
 
         clear_screen()
-        query = input('Is this your first time using Nano? (default=n/no): ')
+        query = input(f'{front} Is this your first time using Nano (will install all needed libraries)? (default=n/no): ')
         if query.lower() == 'y':
             print('Installing requests...')
-            os.system('pip install requests pyperclip')
+            os.system('pip install requests pyperclip customtkinter')
             clear_screen()
     except KeyboardInterrupt:
         clear_screen()
         print(f'{front} Exiting Nano')
         sys.exit()
 
-import requests, pyperclip
+import requests, pyperclip, customtkinter
 
 dashboard = r"""                       
   ____ _____    ____   ____  
@@ -515,7 +515,6 @@ def topicgen():
     except KeyboardInterrupt:
         print(f'{front} Exiting Nano')
 
-import customtkinter
 class packgenui(customtkinter.CTk):
     def closeapp(self):
         sys.exit()
