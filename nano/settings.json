@@ -10,11 +10,12 @@
     "fake_ping": true,
     "logs": true,
     "discord": true,
+    "custom_ascii": true,
 
     "channel": 1065219502683467838,
     "server": 1057851883466793032,
     "user_id": 836938676881719387,
     "target": 836935511285170176,
     "rate_limit": 2,
-    "delay": 0
+    "delay": 1
 }

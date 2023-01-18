@@ -18,19 +18,27 @@ Inside is 1 folder which contain what you need to get setup
 <h1>Information</h1>
 <h2>
 
-'nano.py' - main script
+'nano.py' - main script.
 
-'settings.json' - settings file
+'settings.json' - settings file.
 
-'wordlists' - grab words for packgen
+'ascii.txt' - if custom_ascii is enabled this will be used for the ascii. it is by default an astronaut.
 
-'auto_pressure_lists' - grab words for auto pressure
+'topicgen.txt' - where the topicgen outputs.
+
+'packs.txt' - where the default packgen outputs.
+
+'wordlists' - grab words for packgen.
+
+'wordlists_2' - grab words for auto pressure.
+
+'ascii_archive' - ascii art that i used when testing ascii features, feel free to use.
 </h2>
 
 <h1>Configuring</h1>
 
 <h2>
-Inside your 'settings.json' file you should find this:
+Inside your 'settings.json' file you should find this:<br><br>
 
 ```json
 {
@@ -45,6 +53,7 @@ Inside your 'settings.json' file you should find this:
     "fake_ping": true,
     "logs": true,
     "discord": true,
+    "custom_ascii": true,
 
     "channel": 1064363544335892551,
     "server": 1057851883466793032,
@@ -55,7 +64,7 @@ Inside your 'settings.json' file you should find this:
 }
 ```
 </h2>
-<h1>String values</h1>
+<h1>String values(words/characters)</h1>
 <h2>
 
 ```json
@@ -83,15 +92,27 @@ The 'send_front' - for when you want to show off to your friends, used in the Au
     "fake_ping": true,
     "logs": true,
     "discord": true,
+    "custom_ascii": true,
 }
 ```
 'dms' - check for incoming DMs.<br><br>
 
-server_check' - cross-wide server checking. (This will significantly delay AFK Alert's performance.)<br><br>
+'server_check' - cross-wide server checking. (This will significantly delay AFK Alert's performance.)<br><br>
 
-'single_server' - when you only want to check 1 server.
+'single_server' - when you only want to check 1 server.<br><br>
+
+'rate_limiting' - enable or disable delay when you get ratelimited<br><br>
+
+'fake_ping' - fake pings the user when using the Auto AFK script.<br><br>
+
+'logs' - disable or enable logs (not enabled globally yet)<br><br>
+
+'discord' - whether you want to enable discord functionality (not enabled globally yet)
+
+'custom_ascii' - uses custom ascii art instead of the default 'nano' ascii
+
 </h2>
-<h1>Integer Values</h1>
+<h1>Integer Values (numbers)</h1>
 <h2>
 
 ```json

@@ -80,34 +80,61 @@ options = r"""
 **  [5]Anydesk Hider (in production)    **
 **  [6]Misc scripts (in production)     **
 **                                      **
-**                                      **
 ******************************************
 """
+
+with open('ascii.txt', 'r') as ascii_file:
+    custom_ascii_art = ascii_file.read()
+
+actions_by_a = random.choice(open('wordlists/actions/actions_by_a.txt', 'r').readlines()).strip()
+actions_by = random.choice(open('wordlists/actions/actions_by.txt', 'r').readlines()).strip()
+actions_standalone = random.choice(open('wordlists/actions/actions_standalone.txt', 'r').readlines()).strip()
+additions = random.choice(open('wordlists/additions/additions.txt', 'r').readlines()).strip()
+additions2 = random.choice(open('wordlists/additions/additions2.txt', 'r').readlines()).strip()
+animals = random.choice(open('wordlists/objects_misc/animals.txt', 'r').readlines()).strip()
+bodyparts_external = random.choice(open('wordlists/objects_misc/bodyparts_external.txt', 'r').readlines()).strip()
+bodyparts_internal = random.choice(open('wordlists/objects_misc/bodyparts_internal.txt', 'r').readlines()).strip()
+characters = random.choice(open('wordlists/lists/characters.txt', 'r').readlines()).strip()
+family_members = random.choice(open('wordlists/lists/family_members.txt', 'r').readlines()).strip()
+foods = random.choice(open('wordlists/objects_misc/foods.txt', 'r').readlines()).strip()
+insects = random.choice(open('wordlists/objects_misc/insects.txt', 'r').readlines()).strip()
+materials = random.choice(open('wordlists/objects_misc/materials.txt', 'r').readlines()).strip()
+names = random.choice(open('wordlists/lists/names.txt', 'r').readlines()).strip()
+numbers = random.choice(open('wordlists/person/numbers.txt', 'r').readlines()).strip()
+objects = random.choice(open('wordlists/objects_misc/objects.txt', 'r').readlines()).strip()
+races = random.choice(open('wordlists/person/races.txt', 'r').readlines()).strip()
+time_type = random.choice(open('wordlists/person/time_type.txt', 'r').readlines()).strip()
+quotes = random.choice(open('wordlists/lists/quotes.txt', 'r').readlines()).strip()
 
 with open('settings.json', 'r') as config:
     settings = json.load(config)
 
+# -------String Values------- #
 token = settings.get('token')
 front = settings.get('front')
 send_front = settings.get('send_front')
+
+# -------Integer Values------- #
 
 channel = settings.get('channel')
 server = settings.get('server')
 delay = settings.get('delay')
 user_id = settings.get('user_id')
 rate_limit = settings.get('rate_limit')
-server_check = settings.get('server_check')
+target = settings.get('target')
+
+# -------Boolean Values------- #
+
 dms = settings.get('dms')
+server_check = settings.get('server_check')
 single_server = settings.get('single_server')
 rate_limiting = settings.get('rate_limiting')
 fake_ping = settings.get('fake_ping')
 logs = settings.get('logs')
 discord = settings.get('discord')
+custom_ascii = settings.get('custom_ascii')
 
 fake_ping_text = '||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||'
-target = settings.get('target')
-
-global global_headers
 global_headers = {'authorization': f'{token}'}
 
 packgen_output = 'packs.txt'
@@ -205,7 +232,12 @@ def insults_send():
 def ap():
     try:
         while True:
-            print(dashboard_ap)
+            
+            if custom_ascii == True:
+                print(custom_ascii_art)
+            
+            else:
+                print(dashboard_ap)
             funkies = [lols_send, pack_names_send, insults_send]
             random.choice(funkies)()
             time.sleep(delay)
@@ -214,9 +246,14 @@ def ap():
     except KeyboardInterrupt:
         clear_screen()
         nano()
-
 def aa():
-    print(dashboard_aa)
+
+    if custom_ascii == True:
+        print(custom_ascii_art)
+            
+    else:
+        print(dashboard_aa)
+    
     print(f'{front} messages appear ontop, may take some time to load.\n')
 
     grab_channels = f'https://discord.com/api/v8/guilds/{server}/channels'
@@ -224,12 +261,17 @@ def aa():
 
     aa_triggers = ['afk']
     aa_ping = [f'<@!{user_id}>']
-    sent_messages = []  # Initialize the list
+    sent_messages = [] 
     try:
             
         while True:
             global_headers = {'authorization': f'{token}'}
             get_channels = requests.get(grab_channels, headers=global_headers)
+
+            if get_channels.status_code == 401:
+                input(f'{front} Invalid token, press enter to go back to Nano\'s Dashboard: ')
+                nano()
+
             get_channels_json = get_channels.json()
 
             for channels in get_channels_json:
@@ -270,6 +312,7 @@ def aa():
                         aa_url = f'https://discord.com/api/v9/channels/{checkchannels}/messages?limit=100'
                         global_headers = {'authorization': f'{token}'}
                         aa_msgs = requests.get(aa_url, headers=global_headers)
+                        
                         if aa_output := aa_msgs.json():
                             for msg in aa_output:
                                 if content := msg.get('content'):
@@ -287,8 +330,11 @@ def aa():
                                         for aa_ping_check in aa_ping:
                                             if aa_ping_check in content:
                                                 print(f'{front} #{channelnames} | {username}#{discriminator} pinged you')
+
+
                 if dms == True:
                     dm_channels = requests.get(dm_channels_url, headers=global_headers)
+                    
                     dm_channels_json = dm_channels.json()
                     for channel in dm_channels_json:
                         dm_channel_id = channel['id']
@@ -308,6 +354,7 @@ def aa():
                                 for aa_trigger in aa_triggers: # dm term
                                     if aa_trigger in dm_msg_content:
                                         print(f'{front} {dm_msg_username}#{dm_msg_discriminator}: {dm_msg_content} in DMs')
+                        
 
             time.sleep(delay)
     except KeyboardInterrupt:
@@ -334,7 +381,12 @@ def number_to_unicode(number):
 def aac():  # sourcery skip: merge-nested-ifs
     try:
 
-        print(dashboard_aac)
+        if custom_ascii == True:
+            print(custom_ascii_art)
+                
+        else:
+            print(dashboard_aac)
+
         print(f'{front} Copied a custom AFK Check unicode to your clipboard. (will not be picked up by anti afk stuff)')
         pyperclip.copy('ａｆｋ ｃｈｅｃｋ')
 
@@ -379,31 +431,16 @@ def aac():  # sourcery skip: merge-nested-ifs
 
 def packgen():
     clear_screen()
-    print(dashboard_packgen)
+    if custom_ascii_art == True:
+        print(custom_ascii_art)
+
+    else:
+
+        print(dashboard_packgen)
     while True:
         try:
                 
             time.sleep(delay)
-
-            actions_by_a = random.choice(open('wordlists/actions/actions_by_a.txt', 'r').readlines()).strip()
-            actions_by = random.choice(open('wordlists/actions/actions_by.txt', 'r').readlines()).strip()
-            actions_standalone = random.choice(open('wordlists/actions/actions_standalone.txt', 'r').readlines()).strip()
-            additions = random.choice(open('wordlists/additions/additions.txt', 'r').readlines()).strip()
-            additions2 = random.choice(open('wordlists/additions/additions2.txt', 'r').readlines()).strip()
-            animals = random.choice(open('wordlists/objects_misc/animals.txt', 'r').readlines()).strip()
-            bodyparts_external = random.choice(open('wordlists/objects_misc/bodyparts_external.txt', 'r').readlines()).strip()
-            bodyparts_internal = random.choice(open('wordlists/objects_misc/bodyparts_internal.txt', 'r').readlines()).strip()
-            characters = random.choice(open('wordlists/lists/characters.txt', 'r').readlines()).strip()
-            family_members = random.choice(open('wordlists/lists/family_members.txt', 'r').readlines()).strip()
-            foods = random.choice(open('wordlists/objects_misc/foods.txt', 'r').readlines()).strip()
-            insects = random.choice(open('wordlists/objects_misc/insects.txt', 'r').readlines()).strip()
-            materials = random.choice(open('wordlists/objects_misc/materials.txt', 'r').readlines()).strip()
-            names = random.choice(open('wordlists/lists/names.txt', 'r').readlines()).strip()
-            numbers = random.choice(open('wordlists/person/numbers.txt', 'r').readlines()).strip()
-            objects = random.choice(open('wordlists/objects_misc/objects.txt', 'r').readlines()).strip()
-            races = random.choice(open('wordlists/person/races.txt', 'r').readlines()).strip()
-            time_type = random.choice(open('wordlists/person/time_type.txt', 'r').readlines()).strip()
-            quotes = random.choice(open('wordlists/lists/quotes.txt', 'r').readlines()).strip()
 
             bp = (bodyparts_external, bodyparts_internal)
             bpchoose = random.choice(bp) # chooses internal or external bodyparts
@@ -482,25 +519,6 @@ def topicgen():
 
         while True:
             time.sleep(delay)
-            actions_by_a = random.choice(open('wordlists/actions/actions_by_a.txt', 'r').readlines()).strip()
-            actions_by = random.choice(open('wordlists/actions/actions_by.txt', 'r').readlines()).strip()
-            actions_standalone = random.choice(open('wordlists/actions/actions_standalone.txt', 'r').readlines()).strip()
-            additions = random.choice(open('wordlists/additions/additions.txt', 'r').readlines()).strip()
-            additions2 = random.choice(open('wordlists/additions/additions2.txt', 'r').readlines()).strip()
-            animals = random.choice(open('wordlists/objects_misc/animals.txt', 'r').readlines()).strip()
-            bodyparts_external = random.choice(open('wordlists/objects_misc/bodyparts_external.txt', 'r').readlines()).strip()
-            bodyparts_internal = random.choice(open('wordlists/objects_misc/bodyparts_internal.txt', 'r').readlines()).strip()
-            characters = random.choice(open('wordlists/lists/characters.txt', 'r').readlines()).strip()
-            family_members = random.choice(open('wordlists/lists/family_members.txt', 'r').readlines()).strip()
-            foods = random.choice(open('wordlists/objects_misc/foods.txt', 'r').readlines()).strip()
-            insects = random.choice(open('wordlists/objects_misc/insects.txt', 'r').readlines()).strip()
-            materials = random.choice(open('wordlists/objects_misc/materials.txt', 'r').readlines()).strip()
-            names = random.choice(open('wordlists/lists/names.txt', 'r').readlines()).strip()
-            numbers = random.choice(open('wordlists/person/numbers.txt', 'r').readlines()).strip()
-            objects = random.choice(open('wordlists/objects_misc/objects.txt', 'r').readlines()).strip()
-            races = random.choice(open('wordlists/person/races.txt', 'r').readlines()).strip()
-            time_type = random.choice(open('wordlists/person/time_type.txt', 'r').readlines()).strip()
-            quotes = random.choice(open('wordlists/lists/quotes.txt', 'r').readlines()).strip()
 
             bp = (bodyparts_external, bodyparts_internal)
             bpchoose = random.choice(bp) # chooses internal or external bodyparts
@@ -513,55 +531,37 @@ def topicgen():
             print(f'{front} {topic}')
 
     except KeyboardInterrupt:
-        print(f'{front} Exiting Nano')
+        clear_screen()
+        nano()
 
 class packgenui(customtkinter.CTk):
-    def closeapp(self):
-        sys.exit()
+    def exit_button(self):
+        clear_screen()
+        nano()
     def gen(self):
 
-        self.actions_by_a = random.choice(open('wordlists/actions/actions_by_a.txt', 'r').readlines()).strip()
-        self.actions_by = random.choice(open('wordlists/actions/actions_by.txt', 'r').readlines()).strip()
-        self.actions_standalone = random.choice(open('wordlists/actions/actions_standalone.txt', 'r').readlines()).strip()
-        self.additions = random.choice(open('wordlists/additions/additions.txt', 'r').readlines()).strip()
-        self.additions2 = random.choice(open('wordlists/additions/additions2.txt', 'r').readlines()).strip()
-        self.animals = random.choice(open('wordlists/objects_misc/animals.txt', 'r').readlines()).strip()
-        self.bodyparts_external = random.choice(open('wordlists/objects_misc/bodyparts_external.txt', 'r').readlines()).strip()
-        self.bodyparts_internal = random.choice(open('wordlists/objects_misc/bodyparts_internal.txt', 'r').readlines()).strip()
-        self.characters = random.choice(open('wordlists/lists/characters.txt', 'r').readlines()).strip()
-        self.family_members = random.choice(open('wordlists/lists/family_members.txt', 'r').readlines()).strip()
-        self.foods = random.choice(open('wordlists/objects_misc/foods.txt', 'r').readlines()).strip()
-        self.insects = random.choice(open('wordlists/objects_misc/insects.txt', 'r').readlines()).strip()
-        self.materials = random.choice(open('wordlists/objects_misc/materials.txt', 'r').readlines()).strip()
-        self.names = random.choice(open('wordlists/lists/names.txt', 'r').readlines()).strip()
-        self.numbers = random.choice(open('wordlists/person/numbers.txt', 'r').readlines()).strip()
-        self.objects = random.choice(open('wordlists/objects_misc/objects.txt', 'r').readlines()).strip()
-        self.races = random.choice(open('wordlists/person/races.txt', 'r').readlines()).strip()
-        self.time_type = random.choice(open('wordlists/person/time_type.txt', 'r').readlines()).strip()
-        self.quotes = random.choice(open('wordlists/lists/quotes.txt', 'r').readlines()).strip()
-
-        self.bp = (self.bodyparts_external, self.bodyparts_internal)
-        self.bpchoose = random.choice(self.bp) # chooses internal or external bodyparts
+        self.bp = (bodyparts_external, bodyparts_internal)
+        bpchoose = random.choice(self.bp) # chooses internal or external bodyparts
 
         self.combos = [
-            f'tell me why your {self.family_members} got {self.actions_by_a} {self.additions} {self.objects}', 
-            f'you got caught tryna {self.additions2} with your {self.additions} {self.family_members}s {self.objects}', 
-            f'yo ass got {self.actions_by_a} {self.additions} version of {self.characters}',
-            f'your {self.family_members} got {self.actions_by_a} {self.objects}',
-            f'i walked in the room and saw you get {self.actions_by_a} {self.additions} {self.animals}',
-            f'your {self.family_members} got caught tryna {self.additions2} your {self.additions} pet {self.animals}',
-            f'your {self.family_members} beat you with a {self.additions} {self.objects}',
-            f'this why your pet {self.animals} started {self.actions_standalone} your {self.additions} {self.family_members}',
-            f'your {self.family_members} caught you eating leftover {self.foods} and started {self.actions_standalone} you',
-            f'you tried riding a {self.objects} and fell over and got {self.actions_by_a} {self.animals} dressed up as a {self.foods}',
-            f'yo ass got {self.actions_by_a} {self.races} {self.insects}',
-            f'you got {self.actions_by_a} {self.additions} version of {self.names}',
-            f'you tried {self.actions_standalone} your {self.numbers} {self.time_type} old {self.family_members}',
-            f'you look like a {self.additions} version of your {self.numbers} {self.time_type} old {self.family_members}',
-            f'you sound like a {self.races} {self.animals} when you sing yo ass said {self.quotes}',
-            f'yo {self.races} {self.family_members} walked in the room and caught you {self.actions_standalone} your {self.additions} pet {self.animals} and started {self.actions_standalone} you',
-            f'and then you got {self.actions_by_a} {self.races} {self.animals} with a {self.materials} {self.bpchoose}',
-            f'yo {self.family_members} is in the hospital cuz you tried {self.actions_standalone} on them'
+            f'tell me why your {family_members} got {actions_by_a} {additions} {objects}', 
+            f'you got caught tryna {additions2} with your {additions} {family_members}s {objects}', 
+            f'yo ass got {actions_by_a} {additions} version of {characters}',
+            f'your {family_members} got {actions_by_a} {objects}',
+            f'i walked in the room and saw you get {actions_by_a} {additions} {animals}',
+            f'your {family_members} got caught tryna {additions2} your {additions} pet {animals}',
+            f'your {family_members} beat you with a {additions} {objects}',
+            f'this why your pet {animals} started {actions_standalone} your {additions} {family_members}',
+            f'your {family_members} caught you eating leftover {foods} and started {actions_standalone} you',
+            f'you tried riding a {objects} and fell over and got {actions_by_a} {animals} dressed up as a {foods}',
+            f'yo ass got {actions_by_a} {races} {insects}',
+            f'you got {actions_by_a} {additions} version of {names}',
+            f'you tried {actions_standalone} your {numbers} {time_type} old {family_members}',
+            f'you look like a {additions} version of your {numbers} {time_type} old {family_members}',
+            f'you sound like a {races} {animals} when you sing yo ass said {quotes}',
+            f'yo {races} {family_members} walked in the room and caught you {actions_standalone} your {additions} pet {animals} and started {actions_standalone} you',
+            f'and then you got {actions_by_a} {races} {animals} with a {materials} {bpchoose}',
+            f'yo {family_members} is in the hospital cuz you tried {actions_standalone} on them'
             ]
         
         
@@ -582,7 +582,7 @@ class packgenui(customtkinter.CTk):
         self.generate_button = customtkinter.CTkButton(master=self.frame, text="press me for sex", width=32, height=32 ,command=self.gen)
         self.generate_button.pack()
 
-        self.cancel_button = customtkinter.CTkButton(master=self.frame, text="exit", width=32, height=32 ,command=self.closeapp)
+        self.cancel_button = customtkinter.CTkButton(master=self.frame, text="exit", width=32, height=32 ,command=self.exit_button)
         self.cancel_button.place(x=111, y=15)
 
         self.cancel_button.pack()
@@ -591,7 +591,12 @@ def nano():
     try:
 
         clear_screen()
-        print(dashboard)
+        if custom_ascii == True:
+            print(custom_ascii_art)
+        
+        else:
+
+            print(dashboard)
         print(options)
         choice = input('What script would you like to execute? 1/2/3/4: ')
 
@@ -616,15 +621,19 @@ def nano():
                 clear_screen()
                 start = packgenui()
                 start.mainloop()
-
             case _:
-                sys.exit()
+                clear_screen()
+                nano()
     except KeyboardInterrupt:
         clear_screen()
-        print(dashboard)
+        if custom_ascii == True:
+            print(custom_ascii_art)
+
+        else:
+
+            print(dashboard)
         print(f'{front} Exiting Nano')
         sys.exit()
-
 
 if __name__ == '__main__':
     firstLaunch()
