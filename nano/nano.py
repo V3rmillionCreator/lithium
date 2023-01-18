@@ -60,6 +60,15 @@ ___________    ____ |  | __  ____   ____   ____
 |   __(____  /\___  >__|_ \\___  / \___  >___|  /
 |__|       \/     \/     \/_____/      \/     \/
 """
+dashboard_topicgen = r"""
+  __                .__
+_/  |_  ____ ______ |__| ____   ____   ____   ____
+\   __\/  _ \\____ \|  |/ ___\ / ___\_/ __ \ /    \ 
+ |  | (  <_> )  |_> >  \  \___/ /_/  >  ___/|   |  \
+ |__|  \____/|   __/|__|\___  >___  / \___  >___|  /
+             |__|           \/_____/      \/     \/ 
+"""
+
 
 options = r"""
 ******************************************
@@ -86,25 +95,6 @@ options = r"""
 with open('ascii.txt', 'r') as ascii_file:
     custom_ascii_art = ascii_file.read()
 
-actions_by_a = random.choice(open('wordlists/actions/actions_by_a.txt', 'r').readlines()).strip()
-actions_by = random.choice(open('wordlists/actions/actions_by.txt', 'r').readlines()).strip()
-actions_standalone = random.choice(open('wordlists/actions/actions_standalone.txt', 'r').readlines()).strip()
-additions = random.choice(open('wordlists/additions/additions.txt', 'r').readlines()).strip()
-additions2 = random.choice(open('wordlists/additions/additions2.txt', 'r').readlines()).strip()
-animals = random.choice(open('wordlists/objects_misc/animals.txt', 'r').readlines()).strip()
-bodyparts_external = random.choice(open('wordlists/objects_misc/bodyparts_external.txt', 'r').readlines()).strip()
-bodyparts_internal = random.choice(open('wordlists/objects_misc/bodyparts_internal.txt', 'r').readlines()).strip()
-characters = random.choice(open('wordlists/lists/characters.txt', 'r').readlines()).strip()
-family_members = random.choice(open('wordlists/lists/family_members.txt', 'r').readlines()).strip()
-foods = random.choice(open('wordlists/objects_misc/foods.txt', 'r').readlines()).strip()
-insects = random.choice(open('wordlists/objects_misc/insects.txt', 'r').readlines()).strip()
-materials = random.choice(open('wordlists/objects_misc/materials.txt', 'r').readlines()).strip()
-names = random.choice(open('wordlists/lists/names.txt', 'r').readlines()).strip()
-numbers = random.choice(open('wordlists/person/numbers.txt', 'r').readlines()).strip()
-objects = random.choice(open('wordlists/objects_misc/objects.txt', 'r').readlines()).strip()
-races = random.choice(open('wordlists/person/races.txt', 'r').readlines()).strip()
-time_type = random.choice(open('wordlists/person/time_type.txt', 'r').readlines()).strip()
-quotes = random.choice(open('wordlists/lists/quotes.txt', 'r').readlines()).strip()
 
 with open('settings.json', 'r') as config:
     settings = json.load(config)
@@ -442,6 +432,26 @@ def packgen():
                 
             time.sleep(delay)
 
+            actions_by_a = random.choice(open('wordlists/actions/actions_by_a.txt', 'r').readlines()).strip()
+            actions_by = random.choice(open('wordlists/actions/actions_by.txt', 'r').readlines()).strip()
+            actions_standalone = random.choice(open('wordlists/actions/actions_standalone.txt', 'r').readlines()).strip()
+            additions = random.choice(open('wordlists/additions/additions.txt', 'r').readlines()).strip()
+            additions2 = random.choice(open('wordlists/additions/additions2.txt', 'r').readlines()).strip()
+            animals = random.choice(open('wordlists/objects_misc/animals.txt', 'r').readlines()).strip()
+            bodyparts_external = random.choice(open('wordlists/objects_misc/bodyparts_external.txt', 'r').readlines()).strip()
+            bodyparts_internal = random.choice(open('wordlists/objects_misc/bodyparts_internal.txt', 'r').readlines()).strip()
+            characters = random.choice(open('wordlists/lists/characters.txt', 'r').readlines()).strip()
+            family_members = random.choice(open('wordlists/lists/family_members.txt', 'r').readlines()).strip()
+            foods = random.choice(open('wordlists/objects_misc/foods.txt', 'r').readlines()).strip()
+            insects = random.choice(open('wordlists/objects_misc/insects.txt', 'r').readlines()).strip()
+            materials = random.choice(open('wordlists/objects_misc/materials.txt', 'r').readlines()).strip()
+            names = random.choice(open('wordlists/lists/names.txt', 'r').readlines()).strip()
+            numbers = random.choice(open('wordlists/person/numbers.txt', 'r').readlines()).strip()
+            objects = random.choice(open('wordlists/objects_misc/objects.txt', 'r').readlines()).strip()
+            races = random.choice(open('wordlists/person/races.txt', 'r').readlines()).strip()
+            time_type = random.choice(open('wordlists/person/time_type.txt', 'r').readlines()).strip()
+            quotes = random.choice(open('wordlists/lists/quotes.txt', 'r').readlines()).strip()
+
             bp = (bodyparts_external, bodyparts_internal)
             bpchoose = random.choice(bp) # chooses internal or external bodyparts
 
@@ -475,7 +485,7 @@ def packgen():
                 case True:
                     match discord:
                         case True:
-                            send = requests.post(f'https://discord.com/api/v9/channels/{channel}/messages', data={'content': f'{send_front} {choose_combo}'}, headers={'authorization': token})
+                            send = requests.post(f'https://discord.com/api/v9/channels/{channel}/messages', data={'content': f'{send_front} {choose_combo}'}, headers=global_headers)
                             match send.status_code:
                                 case 200:
                                     print(f'[🗸] {front} {choose_combo}')
@@ -494,7 +504,7 @@ def packgen():
                 case False:
                     match discord:
                         case True:
-                            send = requests.post(f'https://discord.com/api/v9/channels/{channel}/messages', data={'content': f'{send_front} {choose_combo}'}, headers={'authorization': token})
+                            send = requests.post(f'https://discord.com/api/v9/channels/{channel}/messages', data={'content': f'{send_front} {choose_combo}'}, headers=global_headers)
                             match send.status_code:
                                 case 429:
                                     match rate_limiting:
@@ -516,9 +526,32 @@ def packgen():
 
 def topicgen():
     try:
-
+        if custom_ascii == True:
+            print(custom_ascii_art)
+        else:
+            print(dashboard_topicgen)
         while True:
             time.sleep(delay)
+
+            actions_by_a = random.choice(open('wordlists/actions/actions_by_a.txt', 'r').readlines()).strip()
+            actions_by = random.choice(open('wordlists/actions/actions_by.txt', 'r').readlines()).strip()
+            actions_standalone = random.choice(open('wordlists/actions/actions_standalone.txt', 'r').readlines()).strip()
+            additions = random.choice(open('wordlists/additions/additions.txt', 'r').readlines()).strip()
+            additions2 = random.choice(open('wordlists/additions/additions2.txt', 'r').readlines()).strip()
+            animals = random.choice(open('wordlists/objects_misc/animals.txt', 'r').readlines()).strip()
+            bodyparts_external = random.choice(open('wordlists/objects_misc/bodyparts_external.txt', 'r').readlines()).strip()
+            bodyparts_internal = random.choice(open('wordlists/objects_misc/bodyparts_internal.txt', 'r').readlines()).strip()
+            characters = random.choice(open('wordlists/lists/characters.txt', 'r').readlines()).strip()
+            family_members = random.choice(open('wordlists/lists/family_members.txt', 'r').readlines()).strip()
+            foods = random.choice(open('wordlists/objects_misc/foods.txt', 'r').readlines()).strip()
+            insects = random.choice(open('wordlists/objects_misc/insects.txt', 'r').readlines()).strip()
+            materials = random.choice(open('wordlists/objects_misc/materials.txt', 'r').readlines()).strip()
+            names = random.choice(open('wordlists/lists/names.txt', 'r').readlines()).strip()
+            numbers = random.choice(open('wordlists/person/numbers.txt', 'r').readlines()).strip()
+            objects = random.choice(open('wordlists/objects_misc/objects.txt', 'r').readlines()).strip()
+            races = random.choice(open('wordlists/person/races.txt', 'r').readlines()).strip()
+            time_type = random.choice(open('wordlists/person/time_type.txt', 'r').readlines()).strip()
+            quotes = random.choice(open('wordlists/lists/quotes.txt', 'r').readlines()).strip()
 
             bp = (bodyparts_external, bodyparts_internal)
             bpchoose = random.choice(bp) # chooses internal or external bodyparts
@@ -528,7 +561,27 @@ def topicgen():
             with open(topicgen_output, 'a') as out:
                 out.write(f'\n {front}  {topic}')
 
-            print(f'{front} {topic}')
+            if logs and discord == True:
+                send = requests.post(f'https://discord.com/api/v9/channels/{channel}/messages', data={'content': f'{send_front} {topic}'}, headers=global_headers)
+                match send.status_code:
+                    case 200:
+                        print(f'{front} {send_front} {topic}')
+                    
+                    case 429:
+                        match rate_limiting:
+                            case True:
+                                print(f'[X] {front} Ratelimited, retrying in {rate_limit}s')
+                                time.sleep(rate_limit)
+
+                            case False:
+                                print(f'[X] {front} Ratelimited, retrying')
+                    
+                    case 401:
+                        print(f'{front} Invalid token')
+            if logs == True and discord == False:
+                print(f'{front} {send_front} {topic}')
+
+
 
     except KeyboardInterrupt:
         clear_screen()
@@ -539,6 +592,26 @@ class packgenui(customtkinter.CTk):
         clear_screen()
         nano()
     def gen(self):
+
+        actions_by_a = random.choice(open('wordlists/actions/actions_by_a.txt', 'r').readlines()).strip()
+        actions_by = random.choice(open('wordlists/actions/actions_by.txt', 'r').readlines()).strip()
+        actions_standalone = random.choice(open('wordlists/actions/actions_standalone.txt', 'r').readlines()).strip()
+        additions = random.choice(open('wordlists/additions/additions.txt', 'r').readlines()).strip()
+        additions2 = random.choice(open('wordlists/additions/additions2.txt', 'r').readlines()).strip()
+        animals = random.choice(open('wordlists/objects_misc/animals.txt', 'r').readlines()).strip()
+        bodyparts_external = random.choice(open('wordlists/objects_misc/bodyparts_external.txt', 'r').readlines()).strip()
+        bodyparts_internal = random.choice(open('wordlists/objects_misc/bodyparts_internal.txt', 'r').readlines()).strip()
+        characters = random.choice(open('wordlists/lists/characters.txt', 'r').readlines()).strip()
+        family_members = random.choice(open('wordlists/lists/family_members.txt', 'r').readlines()).strip()
+        foods = random.choice(open('wordlists/objects_misc/foods.txt', 'r').readlines()).strip()
+        insects = random.choice(open('wordlists/objects_misc/insects.txt', 'r').readlines()).strip()
+        materials = random.choice(open('wordlists/objects_misc/materials.txt', 'r').readlines()).strip()
+        names = random.choice(open('wordlists/lists/names.txt', 'r').readlines()).strip()
+        numbers = random.choice(open('wordlists/person/numbers.txt', 'r').readlines()).strip()
+        objects = random.choice(open('wordlists/objects_misc/objects.txt', 'r').readlines()).strip()
+        races = random.choice(open('wordlists/person/races.txt', 'r').readlines()).strip()
+        time_type = random.choice(open('wordlists/person/time_type.txt', 'r').readlines()).strip()
+        quotes = random.choice(open('wordlists/lists/quotes.txt', 'r').readlines()).strip()
 
         self.bp = (bodyparts_external, bodyparts_internal)
         bpchoose = random.choice(self.bp) # chooses internal or external bodyparts
