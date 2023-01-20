@@ -1,0 +1,20 @@
+             .;;;, .;;;,                   .;;;, .;;;,
+        .;;;,;;;;;,;;;;;,.;;;,       .;;;.,;;;;;,;;;;;,;;;.
+       ;;;;xXXxXXxXXxXXxXXx;;;. .,. .;;;xXXxXXxXXxXXxXX;;;;;
+   .,,.`xXX'             `xXXx,;;;;;,xXXx'            `XXx;;,,.
+  ;;;;xXX'                  `xXXx;xXXx'                 `XXx;;;;
+  `;;XX'       [1]             `XXX'          [2]         `XX;;'
+ ,;;,XX      Pressure           `X'         Checker        XX,;;,
+ ;;;;XX,                                                  ,XX;;;;
+  ``.;XX,         [3]                      [4]           ,XX;,''
+    ;;;;XX,      Alert                   Packgen       ,XX;;;;
+     ```.;XX,                                        ,XX;,'''
+        ;;;;XX,         [5]           [6]          ,XX;;;;
+         ```,;XX,     Topicgen    Anti Packgen  ,XX;,'''
+             ;;;;XX,                          ,XX;;;;
+              ````,;XX,                    ,XX;, '''
+                  ;;;;;XX,              ,XX;;;;
+                   `````,;XX,        ,XX;,''''
+                        ;;;;;XX,  ,XX;;;;;
+                         `````;;XX;;'''''
+                              `;;;;'

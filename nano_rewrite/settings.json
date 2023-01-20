@@ -1,0 +1,18 @@
+{
+    "token": "ODM2OTM4Njc2ODgxNzE5Mzg3.GOcCqS.r1Fa7Zens5OaM-YRLZqmL1R2AP_4Wr6S2gI2FY",
+    "front": "nano:",
+    "your_webhook": "1065899279312486420/6ZJXYZrL-Z3oqyyOnJ3vD6ZmEuxzNF4jikHGc44c0XWsp3hjTqE3YKq9k4MaCJ8XCIbJ",
+    
+    "delay": 0,
+
+    "your_id": 836938676881719387,
+    "channel": 1065898767376723968,
+    "victim": 836938676881719387,
+    "guild_id": 1057851883466793032,
+
+    "invisible_ping": false,
+    "discord": true,
+    "alerts": true,
+    
+    "live_mode": false
+}
