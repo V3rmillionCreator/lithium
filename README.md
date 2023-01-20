@@ -1,143 +1,69 @@
-# Nano
+# nano
 
-### Combined script of perpetual and carbon, contact me here: [discord](https://bytedev.cf/links/nano) or byte#6110
----
-# Installation
+# installation
 
-### 1. Go to the official [Python](https://python.org) website and download the latest version
+### install [python](https://python.org) and make sure to add it to your path
 
-### 2. Run the installer, and make sure to add PIP/Python to your path
-### 3. After installing it is generally recommended that you restart your system
-### 4. Download Perpetual via the Github link by pressing the green "Code" button and press download zip
-### 5. Extract the .zip folder
-### Inside is 1 folder which contain what you need to get setup
----
-# Information
+### download and extract nano's zip file found in this repository
 
-### 'nano.py' - main script.
-
-### 'settings.json' - settings file.
-
-### 'ascii.txt' - if custom_ascii is enabled this will be used for the ascii. it is by default an astronaut.
-
-### 'topicgen.txt' - where the topicgen outputs.
-
-### 'packs.txt' - where the default packgen outputs.
-
-### 'wordlists' - grab words for packgen.
-
-### 'wordlists_2' - grab words for auto pressure.
-
-### 'ascii_archive' - ascii art that i used when testing ascii features, feel free to use.
-
-# Configuring
-
-## Inside your 'settings.json' file you should find this:
-
+### run install_modules.bat
+----
+# configuring
 
 ```json
 {
     "token": "",
-    "front": "➜ nano:",
-    "send_front": "",
+    "front": "nano:",
+    "your_webhook": "1065899279312486420/6ZJXYZrL-Z3oqyyOnJ3vD6ZmEuxzNF4jikHGc44c0XWsp3hjTqE3YKq9k4MaCJ8XCIbJ",
     
-    "dms": true,
-    "server_check": false,
-    "single_server": true,
-    "rate_limiting": true,
-    "fake_ping": true,
-    "logs": true,
+    "delay": 0,
+
+    "your_id": ,
+    "channel": ,
+    "victim": ,
+    "guild_id": ,
+
+    "invisible_ping": false,
     "discord": true,
-    "custom_ascii": true,
-
-    "channel": 1064363544335892551,
-    "server": 1057851883466793032,
-    "user_id": 836938676881719387,
-    "target": 836935511285170176,
-    "rate_limit": 2,
-    "delay": 0.2
+    "alerts": true,
+    
+    "live_mode": false
 }
 ```
 
-# String values(words/characters)
+## string values
 
-```json
-{
-    "token": "",
-    "front": "➜ nano:",
-    "send_front": "",
-}
-```
+### token - your discord auth key
+### front - example: {"front": "byte:"} 
+### byte: Sent: example
 
-### 'token' - discord authentication key or 'token'.
+### your_webhook - used if 'alerts' is true, example format: 
+##### {"your_webhook": "1065899279312486420/6ZJXYZrL-Z3oqyyOnJ3vD6ZmEuxzNF4jikHGc44c0XWsp3hjTqE3YKq9k4MaCJ8XCIbJ"}
 
-### 'front' - purely visual and will act like your terminal header for outputs.
+## integer values
 
-### 'send_front' - for when you want to show off to your friends, used in the Auto Pressure and Auto AFK Check features.
+### delay - set delay for features measured in seconds, example:
+#### {"delay": 0.1} = 100 milliseconds
 
-# Boolean values (true/false)
+### your_id - checks this ID for pings
+### channel - used for sending messages to channels
+### victim - ping someone with invis ping
+### guild_id - not used yet
 
-```json
-{
-    "dms": true,
-    "server_check": false,
-    "single_server": true,
-    "rate_limiting": true,
-    "fake_ping": true,
-    "logs": true,
-    "discord": true,
-    "custom_ascii": true,
-}
-```
+## boolean values
 
-### 'dms' - check for incoming DMs.
+### invisible_ping - uses invisible pings when afk checking
+### discord - enables/disables discord functionality, disable for speed
+### alerts - send alerts to yourself using webhooks
 
-### 'server_check' - cross-wide server checking. (This will significantly delay AFK Alert's performance.)
-
-### 'single_server' - when you only want to check 1 server.
-
-### 'rate_limiting' - enable or disable delay when you get ratelimited
-
-### 'fake_ping' - fake pings the user when using the Auto AFK script.
-
-### 'logs' - disable or enable logs (not enabled globally yet)
-
-### 'discord' - whether you want to enable discord functionality (not enabled globally yet)
-
-### 'custom_ascii' - uses custom ascii art instead of the default 'nano' ascii
-
-# Integer Values (numbers)
-
-```json
-{
-    "channel": 1064363544335892551,
-    "server": 1057851883466793032,
-    "user_id": 836938676881719387,
-    "target": 836935511285170176,
-    "rate_limit": 2,
-    "delay": 0.2
-}
-```
-
-### 'channel' - used in the Auto Pressure and Auto AFK Check features.
-
-### 'server' - for checking where you want to check for AFK checks.
-
-### 'user_id' - used for when you want to be checked for if you get pinged.
-
-### 'rate_limit' - determine how long you want the Auto Pressure or Auto AFK Check features to retry sending a post request when you get ratelimited.
-
-### 'target' - used for ghostpinging with Auto AFK Check feature.
-
-### 'delay' - how fast you want features to execute
-
-# Features
-### Packgen
-### AFK Alert
-### Auto AFK Check (custom unicode)
-### Topicgen
-### Packgen GUI
-
+### live_mode - insert your variables for your scripts inside the terminal rather than the settings file
+---
 # License
 
-## This software is under a <a href="https://choosealicense.com/licenses/mit/">MIT License</a>, meaning you can change this code to however you like without my knowledge, this is free and open source as so it is yours to do with what you please, I would only ask that you wouldn't embed any malicious code alongside nano.
+## Copyright 2023 [Byte](https://bytedev.cf)
+
+#### Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+#### The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+#### THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
