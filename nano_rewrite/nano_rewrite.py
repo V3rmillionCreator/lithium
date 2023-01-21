@@ -111,14 +111,15 @@ def auto_pressure():
 
     if live_mode == True:
       channel = int(input(f'{front} Channel: '))
-      token = input(f'{front} Token: ')
       delay = int(input(f'{front} Delay: '))
+
+      token = settings.get('token')
     
     else:
       channel = settings.get('channel')
       token = settings.get('token')
       delay = settings.get('delay')
-
+    
     while True:
       auto_pressure_sent_messages = []
       auto_pressure_url = f'https://discord.com/api/v9/channels/{channel}/messages'
@@ -155,17 +156,15 @@ def afk_check():
 
     if live_mode == True:
       channel = int(input(f'{front} Channel: '))
-      token = input(f'{front} Token: ')
 
-      invisible_ping = (input(f'{front} Invisible Ping (true/false): '))
+      invisible_ping = (str(input(f'{front} Invisible Ping (y/n): ')))
 
-      if invisible_ping == 'true' or 'True':
+      if invisible_ping == 'y':
           victim = int(input(f'{front} Victim (ID): '))
 
-      elif invisible_ping == 'false' or 'False':
-        victim = None
-
       delay = int(input(f'{front} Delay: '))
+
+
     else:
       token = settings.get('token')
       channel = settings.get('channel')
@@ -174,6 +173,7 @@ def afk_check():
       victim = settings.get('victim')
 
     while True:
+        token = settings.get('token')
 
         up_to = int(input(f'{front} How far do you want to count to?: '))
 
@@ -181,22 +181,23 @@ def afk_check():
 
         i = 0
         while i < up_to:
-          if invisible_ping == True:
+          if invisible_ping == 'y':
             afk_check_post = requests.post(afk_check_url, headers={'authorization': token}, data={'content': f'{i+1}{invisible_ping_text}<@{victim}>'})
           
-          if invisible_ping == False:
+          elif invisible_ping:
             afk_check_post = requests.post(afk_check_url, headers={'authorization': token}, data={'content': f'{i+1}'})
+            
+          match afk_check_post.status_code:
+            case 200:
+              print(f'{front} Sent {i+1}')
+              i += 1
+              time.sleep(delay)
+            case 429:
+              print(f'{front} Ratelimited, retrying')
+            case 401:
+              print(f'{front} Invalid token or channel ID')
+              break
 
-          if afk_check_post.status_code == 200:
-            print(f'{front} Sent {i+1}')
-            i += 1
-            time.sleep(delay)
-
-          elif afk_check_post.status_code == 429:
-            print(f'{front} Ratelimited, retrying')
-          elif afk_check_post.status_code == 401:
-            print(f'{front} Invalid token or channel ID')
-            break
 
 
   except KeyboardInterrupt:
@@ -207,15 +208,16 @@ def afk_alert():
     clear_screen()
     print(dashboard_afk_alert)
 
-    if live_mode == True:
-      channel = int(input(f'{front} Channel: '))
-      token = input(f'{front} Token: ')
-      delay = int(input(f'{front} Delay: '))
+    match live_mode:
+      case True:
+        delay = int(input(f'{front} Delay: '))
+        your_webhook = str(input('Webhook link: '))
+        token = settings.get('token')
 
-    else:
-      channel = settings.get('channel')
-      token = settings.get('token')
-      delay = settings.get('delay')
+      case False:
+        token = settings.get('token')
+        delay = settings.get('delay')
+        your_webhook = settings.get('your_webhook')
 
     print(f'{front} messages appear ontop, may take some time to load.')
 
@@ -257,7 +259,7 @@ def afk_alert():
                                 print(f'{front} {afk_alert_dm_message_username}#{afk_alert_dm_message_discriminator}: {afk_alert_dm_content} in DMs')
                                 if alerts == True:
                                   afk_alert_post_webhook_data = {"content": f"<@{your_id}>", "embeds": [{"title": f"you're being afk checked by {afk_alert_dm_message_username}#{afk_alert_dm_message_discriminator}", "color": 16711874, "footer": {"text": "sent from nano"}, "image": {"url": "https://media.tenor.com/K3knqTMuD1oAAAAC/rwk-priest-crow.gif"}}],"attachments": []}
-                                  afk_alert_post_webhook = requests.post(f'https://discord.com/api/webhooks/{your_webhook}', json=afk_alert_post_webhook_data)
+                                  afk_alert_post_webhook = requests.post(your_webhook, json=afk_alert_post_webhook_data)
             time.sleep(delay) 
 
     except KeyboardInterrupt:
@@ -269,21 +271,28 @@ def packgen():
     clear_screen()
     print(dashboard_packgen)
 
-    if live_mode == True:
-      discord = bool(input(f'{front} Discord Functionality? (true/false): '))
+    match live_mode:
+      case True:
+        discord = str(input(f'{front} Discord Functionality? (y/n): '))
 
-      if discord:
-        channel = int(input(f'{front} Channel: '))
-        token = input(f'{front} Token: ')
-      
-      delay = int(input(f'{front} Delay: '))
+        match discord:
+          case 'y':
+            channel = int(input(f'{front} Channel: '))
+            delay = int(input(f'{front} Delay: '))
 
-    else:
-      channel = settings.get('channel')
-      token = settings.get('token')
-      delay = settings.get('delay')
-      discord = settings.get('discord')
-    
+            token = settings.get('token')
+
+          case 'n':
+            delay = int(input(f'{front} Delay: '))
+
+      case False:
+
+        channel = settings.get('channel')
+        token = settings.get('token')
+        delay = settings.get('delay')
+        discord = settings.get('discord')
+
+
     while True:
 
       actions_by = random.choice(open('wordlists/actions/actions_by.txt', 'r').readlines()).strip()
@@ -335,7 +344,7 @@ def packgen():
         output.write(f'\n{packgen_choose_combo}')
       
       match discord:
-        case True:
+        case 'y' | True:
           packgen_post_url = f'https://discord.com/api/v9/channels/{channel}/messages'
           packgen_post_request = requests.post(packgen_post_url, headers={'authorization': token}, data={'content': {packgen_choose_combo}})
 
@@ -349,7 +358,7 @@ def packgen():
           
           time.sleep(delay)
 
-        case False:
+        case _:
           print(f'{front} {packgen_choose_combo}')
 
 
@@ -362,22 +371,21 @@ def topicgen():
     clear_screen()
     print(dashboard_topicgen)
 
-    if live_mode == True:
-      discord = bool(input(f'{front} Discord Functionality? (true/false): '))
+    match live_mode:
+      case True:
+        discord = str(input(f'{front} Discord Functionality? (y/n): '))
+        match discord:
+          case 'y':
+            channel = int(input(f'{front} Channel: '))
+            token = settings.get('token')
+        
+        delay = int(input(f'{front} Delay: '))
 
-      if discord:
-        channel = int(input(f'{front} Channel: '))
-        token = input(f'{front} Token: ')
-      
-      delay = int(input(f'{front} Delay: '))
-    
-    else:
-      channel = settings.get('channel')
-      token = settings.get('token')
-      delay = settings.get('delay')
-      discord = settings.get('discord')
-    
-
+      case False:
+        channel = settings.get('channel')
+        token = settings.get('token')
+        delay = settings.get('delay')
+        discord = settings.get('discord')
 
     while True:
 
@@ -412,7 +420,7 @@ def topicgen():
         output.write(f'\n{choose_topic}')
       
       match discord:
-        case True:
+        case True | 'y':
           packgen_post_url = f'https://discord.com/api/v9/channels/{channel}/messages'
           packgen_post_request = requests.post(packgen_post_url, headers={'authorization': token}, data={'content': {choose_topic}})
 
@@ -425,7 +433,7 @@ def topicgen():
               print(f'{front} Invalid token or channel ID')
           time.sleep(delay)
 
-        case False:
+        case _:
           print(f'{front} {choose_topic}')  
 
   except KeyboardInterrupt:
@@ -517,18 +525,18 @@ def crasher():
     clear_screen()
     print(dashboard_crasher)
 
-    if live_mode == True:
+    match live_mode:
+      case True:
+        channel = int(input(f'{front} Channel: '))
+        token = settings.get('token')
+        
+        delay = int(input(f'{front} Delay: '))
 
-      channel = int(input(f'{front} Channel: '))
-      token = input(f'{front} Token: ')
-      
-      delay = int(input(f'{front} Delay: '))
-    
-    else:
-      channel = settings.get('channel')
-      token = settings.get('token')
-      delay = settings.get('delay')
-    
+      case False:
+        channel = settings.get('channel')
+        token = settings.get('token')
+        delay = settings.get('delay')
+
     while True:
       clear_screen()
       print(dashboard_crasher)
@@ -552,53 +560,55 @@ def crasher():
 
 def gc_botnet():
     try:
-        clear_screen()
-        print(dashboard_gc_botnet)
 
-        match live_mode:
-          case True:
-            channel = int(input(f'{front} Channel: '))
-            token = input(f'{front} Token: ')
-            delay = int(input(f'{front} Delay: '))
+
+      
+      clear_screen()
+      print(dashboard_gc_botnet)
+
+      match live_mode:
+        case True:
+          channel = int(input(f'{front} Group ID: '))
+          token = settings.get('token')
+          delay = int(input(f'{front} Delay: '))
+        
+        case False:
+          channel = settings.get('channel')
+          token = settings.get('token')
+          delay = settings.get('delay')
+
+      ids = open('gc_botnet.txt').readlines()
+      num_lines = len(ids) # numl
+
+      i = 0
+      while i < num_lines:
+          user_id = ids[i].strip() 
           
-          case False:
-            channel = settings.get('channel')
-            token = settings.get('token')
-            delay = settings.get('delay')
+          gc_locker_target = f'https://discord.com/api/v9/channels/{channel}/recipients/{user_id}'
+          gc_locker_put_request = requests.put(gc_locker_target, headers={'authorization': token})
 
-
-        ids = open('gc_botnet.txt').readlines()
-        num_lines = len(ids) # numl
-
-        i = 0
-        while i < num_lines:
-            user_id = ids[i].strip() 
+          match gc_locker_put_request.status_code:
+            case 204:
+              print(f'{front} Added 1 user')
             
-            gc_locker_target = f'https://discord.com/api/v9/channels/{channel}/recipients/{user_id}'
-            gc_locker_put_request = requests.put(gc_locker_target, headers={'authorization': token})
+            case 429:
+              print(f'{front} Being ratelimited')
+            
+            case 401:
+              print(f'{front} Invalid token or group ID')
 
-            match gc_locker_put_request.status_code:
-              case 204:
-                print(f'{front} Added 1 user')
-              
-              case 429:
-                print(f'{front} Being ratelimited')
-              
-              case 401:
-                print(f'{front} Invalid token or group ID')
+            case _:
+              print(f'{front} {gc_locker_put_request.status_code}')
 
-              case _:
-                print(f'{front} {gc_locker_put_request.status_code}')
+          time.sleep(delay)
+          i += 1
 
-            time.sleep(delay)
-            i += 1
+      gc_locker_grab_members_url = f'https://discord.com/channels/@me/{channel}'
+      gc_locker_grab_members_get_request = requests.get(gc_locker_grab_members_url, headers={'authorization': token})
+      gc_locker_grab_members_json = gc_locker_grab_members_get_request.json()
 
-        gc_locker_grab_members_url = f'https://discord.com/channels/@me/{channel}'
-        gc_locker_grab_members_get_request = requests.get(gc_locker_grab_members_url, headers={'authorization': token})
-        gc_locker_grab_members_json = gc_locker_grab_members_get_request.json()
-
-        print(gc_locker_grab_members_json)
-        input('debug')
+      print(gc_locker_grab_members_json)
+      input('debug')
 
 
     except KeyboardInterrupt:

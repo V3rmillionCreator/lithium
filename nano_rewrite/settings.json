@@ -1,12 +1,12 @@
 {
     "token": "",
     "front": "nano:",
-    "your_webhook": "1065899279312486420/6ZJXYZrL-Z3oqyyOnJ3vD6ZmEuxzNF4jikHGc44c0XWsp3hjTqE3YKq9k4MaCJ8XCIbJ",
+    "your_webhook": "https://discord.com/api/webhooks/1066353486159171625/3HfPJbp5RMWmQsky2A86j2ajMzE8QN93jJ0znvNs2khufNxX-aEVg9b-PHsSAeVqLkyi",
     
     "delay": 0,
 
     "your_id": 836938676881719387,
-    "channel": 1066345881110073414,
+    "channel": 1066345849711509585,
     "victim": 836938676881719387,
     "guild_id": 1057851883466793032,
 
@@ -14,5 +14,5 @@
     "discord": false,
     "alerts": true,
     
-    "live_mode": false
+    "live_mode": true
 }
