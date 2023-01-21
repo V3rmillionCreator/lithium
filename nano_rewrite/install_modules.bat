@@ -1,1 +1,1 @@
-pip install pyperclip requests
+pip install pyperclip requests asyncio
