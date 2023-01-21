@@ -1,22 +1,23 @@
 # -------- Import Modules -------- #
 
-import random, os, sys, json, time, pyperclip, requests, asyncio
+import random, os, sys, json, time, pyperclip, requests, asyncio, base64
 
 # -------- Import Modules -------- #
 
 
 # -------- Import Artwork -------- #
 
-dashboard = open('artwork/dashboard.txt', encoding='utf-8').read()
-dashboard_afk_check = open('artwork/dashboard_afk_check.txt', encoding='utf-8').read()
-dashboard_afk_alert = open('artwork/dashboard_afk_alert.txt', encoding='utf-8').read()
-dashboard_auto_pressure = open('artwork/dashboard_auto_pressure.txt', encoding='utf-8').read()
-dashboard_options = open('artwork/dashboard_options.txt', encoding='utf-8').read()
-dashboard_packgen = open('artwork/dashboard_packgen.txt', encoding='utf-8').read()
-dashboard_topicgen = open('artwork/dashboard_topicgen.txt', encoding='utf-8').read()
-dashboard_anti_packgen = open('artwork/dashboard_anti_packgen.txt', encoding='utf-8').read()
-dashboard_crasher = open('artwork/dashboard_crasher.txt', encoding='utf-8').read()
-dashboard_gc_botnet = open('artwork/dashboard_gc_botnet.txt', encoding='utf-8').read()
+dashboard = open('lists/artwork/dashboard.txt', encoding='utf-8').read()
+dashboard_afk_check = open('lists/artwork/dashboard_afk_check.txt', encoding='utf-8').read()
+dashboard_afk_alert = open('lists/artwork/dashboard_afk_alert.txt', encoding='utf-8').read()
+dashboard_auto_pressure = open('lists/artwork/dashboard_auto_pressure.txt', encoding='utf-8').read()
+dashboard_options = open('lists/artwork/dashboard_options.txt', encoding='utf-8').read()
+dashboard_packgen = open('lists/artwork/dashboard_packgen.txt', encoding='utf-8').read()
+dashboard_topicgen = open('lists/artwork/dashboard_topicgen.txt', encoding='utf-8').read()
+dashboard_anti_packgen = open('lists/artwork/dashboard_anti_packgen.txt', encoding='utf-8').read()
+dashboard_crasher = open('lists/artwork/dashboard_crasher.txt', encoding='utf-8').read()
+dashboard_gc_botnet = open('lists/artwork/dashboard_gc_botnet.txt', encoding='utf-8').read()
+dashboard_add_users = open('lists/artwork/dashboard_add_users.txt', encoding='utf-8').read()
 
 # -------- Import Artwork -------- #
 
@@ -66,7 +67,7 @@ def startup():
     clear_screen()
     print(dashboard)
     print(dashboard_options)
-    script_choice = input('\nWhat script would you like to run? 1/2/3/4/5/6/7/8: ')
+    script_choice = input('\nWhat script would you like to run? 1/2/3/4/5/6/7/8/9: ')
     match script_choice:
       case '1':
         auto_pressure()
@@ -91,6 +92,9 @@ def startup():
       
       case '8':
         gc_botnet()
+
+      case '9':
+        add_users()
 
       case _:
         startup()
@@ -124,7 +128,7 @@ def auto_pressure():
       auto_pressure_sent_messages = []
       auto_pressure_url = f'https://discord.com/api/v9/channels/{channel}/messages'
 
-      auto_pressure_list = random.choice(open('auto_pressure_lists/pressure.txt', 'r').readlines())
+      auto_pressure_list = random.choice(open('lists/auto_pressure_lists/pressure.txt', 'r').readlines())
 
       auto_pressure_files = [auto_pressure_list]
 
@@ -295,26 +299,26 @@ def packgen():
 
     while True:
 
-      actions_by = random.choice(open('wordlists/actions/actions_by.txt', 'r').readlines()).strip()
-      actions_by_a = random.choice(open('wordlists/actions/actions_by_a.txt', 'r').readlines()).strip()
-      actions_standalone = random.choice(open('wordlists/actions/actions_standalone.txt', 'r').readlines()).strip()
-      additions = random.choice(open('wordlists/additions/additions.txt', 'r').readlines()).strip()
-      additions2 = random.choice(open('wordlists/additions/additions2.txt', 'r').readlines()).strip()
-      animals = random.choice(open('wordlists/objects_misc/animals.txt', 'r').readlines()).strip()
-      bodyparts_external = random.choice(open('wordlists/objects_misc/bodyparts_external.txt', 'r').readlines()).strip()
-      bodyparts_internal = random.choice(open('wordlists/objects_misc/bodyparts_internal.txt', 'r').readlines()).strip()
-      characters = random.choice(open('wordlists/lists/characters.txt', 'r').readlines()).strip()
-      family_members = random.choice(open('wordlists/lists/family_members.txt', 'r').readlines()).strip()
-      foods = random.choice(open('wordlists/objects_misc/foods.txt', 'r').readlines()).strip()
-      insects = random.choice(open('wordlists/objects_misc/insects.txt', 'r').readlines()).strip()
-      materials = random.choice(open('wordlists/objects_misc/materials.txt', 'r').readlines()).strip()
-      names = random.choice(open('wordlists/lists/names.txt', 'r').readlines()).strip()
-      numbers = random.choice(open('wordlists/person/numbers.txt', 'r').readlines()).strip()
-      objects = random.choice(open('wordlists/objects_misc/objects.txt', 'r').readlines()).strip()
-      quotes = random.choice(open('wordlists/lists/quotes.txt', 'r').readlines()).strip()
-      races = random.choice(open('wordlists/person/races.txt', 'r').readlines()).strip()
-      time_type = random.choice(open('wordlists/person/time_type.txt', 'r').readlines()).strip()
-      appearance = random.choice(open('wordlists/lists/appearance.txt', 'r').readlines()).strip()
+      actions_by = random.choice(open('lists/wordlists/actions/actions_by.txt', 'r').readlines()).strip()
+      actions_by_a = random.choice(open('lists/wordlists/actions/actions_by_a.txt', 'r').readlines()).strip()
+      actions_standalone = random.choice(open('lists/wordlists/actions/actions_standalone.txt', 'r').readlines()).strip()
+      additions = random.choice(open('lists/wordlists/additions/additions.txt', 'r').readlines()).strip()
+      additions2 = random.choice(open('lists/wordlists/additions/additions2.txt', 'r').readlines()).strip()
+      animals = random.choice(open('lists/wordlists/objects_misc/animals.txt', 'r').readlines()).strip()
+      bodyparts_external = random.choice(open('lists/wordlists/objects_misc/bodyparts_external.txt', 'r').readlines()).strip()
+      bodyparts_internal = random.choice(open('lists/wordlists/objects_misc/bodyparts_internal.txt', 'r').readlines()).strip()
+      characters = random.choice(open('lists/wordlists/lists/characters.txt', 'r').readlines()).strip()
+      family_members = random.choice(open('lists/wordlists/lists/family_members.txt', 'r').readlines()).strip()
+      foods = random.choice(open('lists/wordlists/objects_misc/foods.txt', 'r').readlines()).strip()
+      insects = random.choice(open('lists/wordlists/objects_misc/insects.txt', 'r').readlines()).strip()
+      materials = random.choice(open('lists/wordlists/objects_misc/materials.txt', 'r').readlines()).strip()
+      names = random.choice(open('lists/wordlists/lists/names.txt', 'r').readlines()).strip()
+      numbers = random.choice(open('lists/wordlists/person/numbers.txt', 'r').readlines()).strip()
+      objects = random.choice(open('lists/wordlists/objects_misc/objects.txt', 'r').readlines()).strip()
+      quotes = random.choice(open('lists/wordlists/lists/quotes.txt', 'r').readlines()).strip()
+      races = random.choice(open('lists/wordlists/person/races.txt', 'r').readlines()).strip()
+      time_type = random.choice(open('lists/wordlists/person/time_type.txt', 'r').readlines()).strip()
+      appearance = random.choice(open('lists/wordlists/lists/appearance.txt', 'r').readlines()).strip()
 
       bp = (bodyparts_external, bodyparts_internal)
       bpchoose = random.choice(bp)
@@ -389,25 +393,25 @@ def topicgen():
 
     while True:
 
-      actions_by_a = random.choice(open('wordlists/actions/actions_by_a.txt', 'r').readlines()).strip()
-      actions_by = random.choice(open('wordlists/actions/actions_by.txt', 'r').readlines()).strip()
-      actions_standalone = random.choice(open('wordlists/actions/actions_standalone.txt', 'r').readlines()).strip()
-      additions = random.choice(open('wordlists/additions/additions.txt', 'r').readlines()).strip()
-      additions2 = random.choice(open('wordlists/additions/additions2.txt', 'r').readlines()).strip()
-      animals = random.choice(open('wordlists/objects_misc/animals.txt', 'r').readlines()).strip()
-      bodyparts_external = random.choice(open('wordlists/objects_misc/bodyparts_external.txt', 'r').readlines()).strip()
-      bodyparts_internal = random.choice(open('wordlists/objects_misc/bodyparts_internal.txt', 'r').readlines()).strip()
-      characters = random.choice(open('wordlists/lists/characters.txt', 'r').readlines()).strip()
-      family_members = random.choice(open('wordlists/lists/family_members.txt', 'r').readlines()).strip()
-      foods = random.choice(open('wordlists/objects_misc/foods.txt', 'r').readlines()).strip()
-      insects = random.choice(open('wordlists/objects_misc/insects.txt', 'r').readlines()).strip()
-      materials = random.choice(open('wordlists/objects_misc/materials.txt', 'r').readlines()).strip()
-      names = random.choice(open('wordlists/lists/names.txt', 'r').readlines()).strip()
-      numbers = random.choice(open('wordlists/person/numbers.txt', 'r').readlines()).strip()
-      objects = random.choice(open('wordlists/objects_misc/objects.txt', 'r').readlines()).strip()
-      races = random.choice(open('wordlists/person/races.txt', 'r').readlines()).strip()
-      time_type = random.choice(open('wordlists/person/time_type.txt', 'r').readlines()).strip()
-      quotes = random.choice(open('wordlists/lists/quotes.txt', 'r').readlines()).strip()
+      actions_by_a = random.choice(open('lists/wordlists/actions/actions_by_a.txt', 'r').readlines()).strip()
+      actions_by = random.choice(open('lists/wordlists/actions/actions_by.txt', 'r').readlines()).strip()
+      actions_standalone = random.choice(open('lists/wordlists/actions/actions_standalone.txt', 'r').readlines()).strip()
+      additions = random.choice(open('lists/wordlists/additions/additions.txt', 'r').readlines()).strip()
+      additions2 = random.choice(open('lists/wordlists/additions/additions2.txt', 'r').readlines()).strip()
+      animals = random.choice(open('lists/wordlists/objects_misc/animals.txt', 'r').readlines()).strip()
+      bodyparts_external = random.choice(open('lists/wordlists/objects_misc/bodyparts_external.txt', 'r').readlines()).strip()
+      bodyparts_internal = random.choice(open('lists/wordlists/objects_misc/bodyparts_internal.txt', 'r').readlines()).strip()
+      characters = random.choice(open('lists/wordlists/lists/characters.txt', 'r').readlines()).strip()
+      family_members = random.choice(open('lists/wordlists/lists/family_members.txt', 'r').readlines()).strip()
+      foods = random.choice(open('lists/wordlists/objects_misc/foods.txt', 'r').readlines()).strip()
+      insects = random.choice(open('lists/wordlists/objects_misc/insects.txt', 'r').readlines()).strip()
+      materials = random.choice(open('lists/wordlists/objects_misc/materials.txt', 'r').readlines()).strip()
+      names = random.choice(open('lists/wordlists/lists/names.txt', 'r').readlines()).strip()
+      numbers = random.choice(open('lists/wordlists/person/numbers.txt', 'r').readlines()).strip()
+      objects = random.choice(open('lists/wordlists/objects_misc/objects.txt', 'r').readlines()).strip()
+      races = random.choice(open('lists/wordlists/person/races.txt', 'r').readlines()).strip()
+      time_type = random.choice(open('lists/wordlists/person/time_type.txt', 'r').readlines()).strip()
+      quotes = random.choice(open('lists/wordlists/lists/quotes.txt', 'r').readlines()).strip()
 
       bp = (bodyparts_external, bodyparts_internal)
       bpchoose = random.choice(bp)
@@ -445,25 +449,25 @@ def anti_packgen():
     print(dashboard_anti_packgen)
 
     while True:
-      actions_by_a = random.choice(open('wordlists/actions/actions_by_a.txt', 'r').readlines()).strip()
-      actions_by = random.choice(open('wordlists/actions/actions_by.txt', 'r').readlines()).strip()
-      actions_standalone = random.choice(open('wordlists/actions/actions_standalone.txt', 'r').readlines()).strip()
-      additions = random.choice(open('wordlists/additions/additions.txt', 'r').readlines()).strip()
-      additions2 = random.choice(open('wordlists/additions/additions2.txt', 'r').readlines()).strip()
-      animals = random.choice(open('wordlists/objects_misc/animals.txt', 'r').readlines()).strip()
-      bodyparts_external = random.choice(open('wordlists/objects_misc/bodyparts_external.txt', 'r').readlines()).strip()
-      bodyparts_internal = random.choice(open('wordlists/objects_misc/bodyparts_internal.txt', 'r').readlines()).strip()
-      characters = random.choice(open('wordlists/lists/characters.txt', 'r').readlines()).strip()
-      family_members = random.choice(open('wordlists/lists/family_members.txt', 'r').readlines()).strip()
-      foods = random.choice(open('wordlists/objects_misc/foods.txt', 'r').readlines()).strip()
-      insects = random.choice(open('wordlists/objects_misc/insects.txt', 'r').readlines()).strip()
-      materials = random.choice(open('wordlists/objects_misc/materials.txt', 'r').readlines()).strip()
-      names = random.choice(open('wordlists/lists/names.txt', 'r').readlines()).strip()
-      numbers = random.choice(open('wordlists/person/numbers.txt', 'r').readlines()).strip()
-      objects = random.choice(open('wordlists/objects_misc/objects.txt', 'r').readlines()).strip()
-      races = random.choice(open('wordlists/person/races.txt', 'r').readlines()).strip()
-      time_type = random.choice(open('wordlists/person/time_type.txt', 'r').readlines()).strip()
-      quotes = random.choice(open('wordlists/lists/quotes.txt', 'r').readlines()).strip()
+      actions_by_a = random.choice(open('lists/wordlists/actions/actions_by_a.txt', 'r').readlines()).strip()
+      actions_by = random.choice(open('lists/wordlists/actions/actions_by.txt', 'r').readlines()).strip()
+      actions_standalone = random.choice(open('lists/wordlists/actions/actions_standalone.txt', 'r').readlines()).strip()
+      additions = random.choice(open('lists/wordlists/additions/additions.txt', 'r').readlines()).strip()
+      additions2 = random.choice(open('lists/wordlists/additions/additions2.txt', 'r').readlines()).strip()
+      animals = random.choice(open('lists/wordlists/objects_misc/animals.txt', 'r').readlines()).strip()
+      bodyparts_external = random.choice(open('lists/wordlists/objects_misc/bodyparts_external.txt', 'r').readlines()).strip()
+      bodyparts_internal = random.choice(open('lists/wordlists/objects_misc/bodyparts_internal.txt', 'r').readlines()).strip()
+      characters = random.choice(open('lists/wordlists/lists/characters.txt', 'r').readlines()).strip()
+      family_members = random.choice(open('lists/wordlists/lists/family_members.txt', 'r').readlines()).strip()
+      foods = random.choice(open('lists/wordlists/objects_misc/foods.txt', 'r').readlines()).strip()
+      insects = random.choice(open('lists/wordlists/objects_misc/insects.txt', 'r').readlines()).strip()
+      materials = random.choice(open('lists/wordlists/objects_misc/materials.txt', 'r').readlines()).strip()
+      names = random.choice(open('lists/wordlists/lists/names.txt', 'r').readlines()).strip()
+      numbers = random.choice(open('lists/wordlists/person/numbers.txt', 'r').readlines()).strip()
+      objects = random.choice(open('lists/wordlists/objects_misc/objects.txt', 'r').readlines()).strip()
+      races = random.choice(open('lists/wordlists/person/races.txt', 'r').readlines()).strip()
+      time_type = random.choice(open('lists/wordlists/person/time_type.txt', 'r').readlines()).strip()
+      quotes = random.choice(open('lists/wordlists/lists/quotes.txt', 'r').readlines()).strip()
 
       bp = (bodyparts_external, bodyparts_internal)
       bpchoose = random.choice(bp)
@@ -561,8 +565,6 @@ def crasher():
 def gc_botnet():
     try:
 
-
-      
       clear_screen()
       print(dashboard_gc_botnet)
 
@@ -577,7 +579,9 @@ def gc_botnet():
           token = settings.get('token')
           delay = settings.get('delay')
 
-      ids = open('gc_botnet.txt').readlines()
+      ids = open('lists/gc_locker/gc_botnet.txt').readlines()
+      tokens = open('lists/gc_locker/gc_tokens.txt').raedlines()
+
       num_lines = len(ids) # numl
 
       i = 0
@@ -603,16 +607,60 @@ def gc_botnet():
           time.sleep(delay)
           i += 1
 
-      gc_locker_grab_members_url = f'https://discord.com/channels/@me/{channel}'
-      gc_locker_grab_members_get_request = requests.get(gc_locker_grab_members_url, headers={'authorization': token})
-      gc_locker_grab_members_json = gc_locker_grab_members_get_request.json()
-
-      print(gc_locker_grab_members_json)
-      input('debug')
-
-
     except KeyboardInterrupt:
         startup()
+
+def add_users():
+  try:
+    clear_screen()
+    print(dashboard_add_users)
+
+    token = input(f'{front} Token: ')
+    ids = open('lists/gc_locker/gc_botnet.txt').readlines()
+
+    for id in ids:
+        add_users_put_url = f"https://discord.com/api/v9/users/@me/relationships/{id.strip()}"
+        add_users_headers = {
+            "accept": "*/*",
+            "accept-language": "en-GB",
+            "authorization": token,
+            "content-type": "application/json",
+            "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"102\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Linux\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            "x-context-properties": "eyJsb2NhdGlvbiI6IlVzZXIgUHJvZmlsZSJ9",
+            "x-debug-options": "bugReporterEnabled",
+            "x-discord-locale": "en-US",
+            "x-super-properties": "eyJvcyI6IkxpbnV4IiwiYnJvd3NlciI6IkRpc2NvcmQgQ2xpZW50IiwicmVsZWFzZV9jaGFubmVsIjoic3RhYmxlIiwiY2xpZW50X3ZlcnNpb24iOiIwLjAuMjQiLCJvc192ZXJzaW9uIjoiNi4xLjYtYXJjaDEtMyIsIm9zX2FyY2giOiJ4NjQiLCJzeXN0ZW1fbG9jYWxlIjoiZW4tR0IiLCJ3aW5kb3dfbWFuYWdlciI6IktERSx1bmtub3duIiwiZGlzdHJvIjoiXCJYZXJvTGludXhcIiIsImNsaWVudF9idWlsZF9udW1iZXIiOjE2OTE3OCwibmF0aXZlX2J1aWxkX251bWJlciI6bnVsbCwiY2xpZW50X2V2ZW50X3NvdXJjZSI6bnVsbH0="
+        }
+
+        body = {}
+
+        add_users_put_request = requests.put(add_users_put_url, headers=add_users_headers, json=body)
+
+        match add_users_put_request.status_code:
+          case 204:
+            print(f'{front} Added {ids}')
+
+          case 400:
+            print(f'{front} Already added this ID, {id}')
+
+          case 429:
+              print(f'{front} Being ratelimited')
+
+          case 401:
+              print(f'{front} Invalid token or user ID')
+
+          case _:
+            print(f'{front} Unknown status code, report this code to byte#6110 | Code: {add_users_put_request.status_code}')
+      
+    startup()
+
+  except KeyboardInterrupt:
+    startup()
 
 
 
