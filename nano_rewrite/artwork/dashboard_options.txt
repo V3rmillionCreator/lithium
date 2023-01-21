@@ -5,3 +5,4 @@
                             [5] Topicgen
                             [6] Anti Packgen
                             [7] Channel Crasher
+                            [8] GC Locker (early)

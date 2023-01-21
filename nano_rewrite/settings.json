@@ -6,12 +6,12 @@
     "delay": 0,
 
     "your_id": 836938676881719387,
-    "channel": 1049161003826417664,
+    "channel": 1066345881110073414,
     "victim": 836938676881719387,
     "guild_id": 1057851883466793032,
 
     "invisible_ping": false,
-    "discord": true,
+    "discord": false,
     "alerts": true,
     
     "live_mode": false

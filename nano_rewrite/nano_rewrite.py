@@ -1,6 +1,6 @@
 # -------- Import Modules -------- #
 
-import random, os, sys, json, time, pyperclip, requests
+import random, os, sys, json, time, pyperclip, requests, asyncio
 
 # -------- Import Modules -------- #
 
@@ -16,6 +16,7 @@ dashboard_packgen = open('artwork/dashboard_packgen.txt', encoding='utf-8').read
 dashboard_topicgen = open('artwork/dashboard_topicgen.txt', encoding='utf-8').read()
 dashboard_anti_packgen = open('artwork/dashboard_anti_packgen.txt', encoding='utf-8').read()
 dashboard_crasher = open('artwork/dashboard_crasher.txt', encoding='utf-8').read()
+dashboard_gc_botnet = open('artwork/dashboard_gc_botnet.txt', encoding='utf-8').read()
 
 # -------- Import Artwork -------- #
 
@@ -65,7 +66,7 @@ def startup():
     clear_screen()
     print(dashboard)
     print(dashboard_options)
-    script_choice = input('\n              What script would you like to run? 1/2/3/4/5/6/7: ')
+    script_choice = input('\n              What script would you like to run? 1/2/3/4/5/6/7/8: ')
     match script_choice:
       case '1':
         auto_pressure()
@@ -87,6 +88,9 @@ def startup():
       
       case '7':
         crasher()
+      
+      case '8':
+        gc_botnet()
 
       case _:
         startup()
@@ -146,64 +150,57 @@ def auto_pressure():
 
 def afk_check():
   try:
-    clear_screen()
-    print(dashboard_afk_check)
+    while True:
+      clear_screen()
+      print(dashboard_afk_check)
 
-    if live_mode == True:
-      channel = int(input(f'{front} Channel: '))
-      token = input(f'{front} Token: ')
+      if live_mode == True:
+        channel = int(input(f'{front} Channel: '))
+        token = input(f'{front} Token: ')
 
-      invisible_ping = bool(input(f'{front} Invisible Ping (true/false): '))
-      
-      if invisible_ping:
-        victim = int(input(f'{front} Victim (ID): '))
+        invisible_ping = bool(input(f'{front} Invisible Ping (true/false): '))
+        
+        if invisible_ping:
+          victim = int(input(f'{front} Victim (ID): '))
 
-      delay = int(input(f'{front} Delay: '))
+        delay = int(input(f'{front} Delay: '))
 
-    else:
-      channel = settings.get('channel')
-      token = settings.get('token')
+      else:
+        channel = settings.get('channel')
+        token = settings.get('token')
 
-      invisible_ping = settings.get('invisible_ping')
+        invisible_ping = settings.get('invisible_ping')
 
-      delay = settings.get('delay')
-      victim = settings.get('victim')
+        delay = settings.get('delay')
+        victim = settings.get('victim')
 
 
-    up_to = int(input(f'{front} How far do you want to count to?: '))
+      up_to = int(input(f'{front} How far do you want to count to?: '))
 
-    afk_check_url = f'https://discord.com/api/v9/channels/{channel}/messages'
-    _ = 0
+      afk_check_url = f'https://discord.com/api/v9/channels/{channel}/messages'
 
-    for _ in range(up_to):
-      match invisible_ping:
+      i = 0
+      while i < up_to:
+        if invisible_ping:
+          afk_check_post = requests.post(afk_check_url, headers={'authorization': token}, data={'content': f'{i}{invisible_ping_text}<@{victim}>'})
+        else:
+          afk_check_post = requests.post(afk_check_url, headers={'authorization': token}, data={'content': f'{i}'})
 
-        case True:
-          afk_check_post = requests.post(afk_check_url, headers={'authorization': token}, data={'content': f'{_+1}{invisible_ping_text}<@{victim}>'})
-          
-          match afk_check_post.status_code:
-            case 200:
-              print(f'{front} Sent {_+1}')
-            case 429:
-              print(f'{front} Ratelimited, retrying')
-            case 401:
-              print(f'{front} Invalid token or channel ID')
+        if afk_check_post.status_code == 200:
+          print(f'{front} Sent {i}')
+          i += 1
+          time.sleep(delay)
 
-        case False:
-          afk_check_post = requests.post(afk_check_url, headers={'authorization': token}, data={'content': {_+1}})
-          
-          match afk_check_post.status_code:
-            case 200:
-              print(f'{front} Sent {_+1}')
-            case 429:
-              print(f'{front} Ratelimited, retrying')
-            case 401:
-              print(f'{front} Invalid token or channel ID')
+        elif afk_check_post.status_code == 429:
+          print(f'{front} Ratelimited, retrying')
+        elif afk_check_post.status_code == 401:
+          print(f'{front} Invalid token or channel ID')
+          break
 
-    time.sleep(delay)
 
   except KeyboardInterrupt:
     startup()
+
 
 def afk_alert():
     clear_screen()
@@ -288,8 +285,8 @@ def packgen():
     
     while True:
 
-      actions_by_a = random.choice(open('wordlists/actions/actions_by_a.txt', 'r').readlines()).strip()
       actions_by = random.choice(open('wordlists/actions/actions_by.txt', 'r').readlines()).strip()
+      actions_by_a = random.choice(open('wordlists/actions/actions_by_a.txt', 'r').readlines()).strip()
       actions_standalone = random.choice(open('wordlists/actions/actions_standalone.txt', 'r').readlines()).strip()
       additions = random.choice(open('wordlists/additions/additions.txt', 'r').readlines()).strip()
       additions2 = random.choice(open('wordlists/additions/additions2.txt', 'r').readlines()).strip()
@@ -304,14 +301,33 @@ def packgen():
       names = random.choice(open('wordlists/lists/names.txt', 'r').readlines()).strip()
       numbers = random.choice(open('wordlists/person/numbers.txt', 'r').readlines()).strip()
       objects = random.choice(open('wordlists/objects_misc/objects.txt', 'r').readlines()).strip()
+      quotes = random.choice(open('wordlists/lists/quotes.txt', 'r').readlines()).strip()
       races = random.choice(open('wordlists/person/races.txt', 'r').readlines()).strip()
       time_type = random.choice(open('wordlists/person/time_type.txt', 'r').readlines()).strip()
-      quotes = random.choice(open('wordlists/lists/quotes.txt', 'r').readlines()).strip()
+      appearance = random.choice(open('wordlists/lists/appearance.txt', 'r').readlines()).strip()
 
       bp = (bodyparts_external, bodyparts_internal)
       bpchoose = random.choice(bp)
 
-      packgen_combos = [f'tell me why your {family_members} got {actions_by_a} {additions} {objects}', f'you got caught tryna {additions2} with your {additions} {family_members}s {objects}', f'yo ass got {actions_by_a} {additions} version of {characters}',f'your {family_members} got {actions_by_a} {objects}',f'i walked in the room and saw you get {actions_by_a} {additions} {animals}',f'your {family_members} got caught tryna {additions2} your {additions} pet {animals}',f'your {family_members} beat you with a {additions} {objects}',f'this why your pet {animals} started {actions_standalone} your {additions} {family_members}',f'your {family_members} caught you eating leftover {foods} and started {actions_standalone} you',f'you tried riding a {objects} and fell over and got {actions_by_a} {animals} dressed up as a {foods}',f'yo ass got {actions_by_a} {races} {insects}',f'you got {actions_by_a} {additions} version of {names}',f'you tried {actions_standalone} your {numbers} {time_type} old {family_members}',f'you look like a {additions} version of your {numbers} {time_type} old {family_members}',f'you sound like a {races} {animals} when you sing yo ass said {quotes}',f'yo {races} {family_members} walked in the room and caught you {actions_standalone} your {additions} pet {animals} and started {actions_standalone} you',f'and then you got {actions_by_a} {races} {animals} with a {materials} {bpchoose}',f'yo {family_members} is in the hospital cuz you tried {actions_standalone} on them']      
+      packgen_combos = [f'tell me why your {family_members} got {actions_by_a} {additions} {objects}',
+                        f'you got caught tryna {additions2} with your {additions} {family_members}s {objects}',
+                        f'yo ass got {actions_by_a} {additions} version of {characters}',
+                        f'your {family_members} got {actions_by_a} {objects}',
+                        f'i walked in the room and saw you get {actions_by_a} {additions} {animals}',
+                        f'your {family_members} got caught tryna {additions2} your {additions} pet {animals}',
+                        f'your {family_members} beat you with a {additions} {objects}',
+                        f'this why your pet {animals} started {actions_standalone} your {additions} {family_members}',
+                        f'your {family_members} caught you eating leftover {foods} and started {actions_standalone} you',
+                        f'you tried riding a {objects} and fell over and got {actions_by_a} {animals} dressed up as a {foods}',
+                        f'yo ass got {actions_by_a} {races} {insects}',
+                        f'you got {actions_by_a} {additions} version of {names}',
+                        f'you tried {actions_standalone} your {numbers} {time_type} old {family_members}',
+                        f'you look like a {additions} version of your {numbers} {time_type} old {family_members}',
+                        f'you sound like a {races} {animals} when you sing yo ass said {quotes}',
+                        f'yo {races} {family_members} walked in the room and caught you {actions_standalone} your {additions} pet {animals} and started {actions_standalone} you',
+                        f'and then you got {actions_by_a} {races} {animals} with a {materials} {bpchoose}',
+                        f'yo {family_members} is in the hospital cuz you tried {actions_standalone} on them',
+                        f'you got {actions_by} your {races} pet {animals} and now your {appearance} looks like a {additions} {objects}'] 
       packgen_choose_combo = random.choice(packgen_combos)
 
       with open('packs.txt', 'a') as output:
@@ -532,6 +548,62 @@ def crasher():
 
   except KeyboardInterrupt:
     startup()
+
+def gc_botnet():
+    try:
+        clear_screen()
+        print(dashboard_gc_botnet)
+
+        match live_mode:
+          case True:
+            channel = int(input(f'{front} Channel: '))
+            token = input(f'{front} Token: ')
+            delay = int(input(f'{front} Delay: '))
+          
+          case False:
+            channel = settings.get('channel')
+            token = settings.get('token')
+            delay = settings.get('delay')
+
+
+        ids = open('gc_botnet.txt').readlines()
+        num_lines = len(ids) # numl
+
+        i = 0
+        while i < num_lines:
+            user_id = ids[i].strip() 
+            
+            gc_locker_target = f'https://discord.com/api/v9/channels/{channel}/recipients/{user_id}'
+            gc_locker_put_request = requests.put(gc_locker_target, headers={'authorization': token})
+
+            match gc_locker_put_request.status_code:
+              case 204:
+                print(f'{front} Added 1 user')
+              
+              case 429:
+                print(f'{front} Being ratelimited')
+              
+              case 401:
+                print(f'{front} Invalid token or group ID')
+
+              case _:
+                print(f'{front} {gc_locker_put_request.status_code}')
+
+            time.sleep(delay)
+            i += 1
+
+        gc_locker_grab_members_url = f'https://discord.com/channels/@me/{channel}'
+        gc_locker_grab_members_get_request = requests.get(gc_locker_grab_members_url, headers={'authorization': token})
+        gc_locker_grab_members_json = gc_locker_grab_members_get_request.json()
+
+        print(gc_locker_grab_members_json)
+        input('debug')
+
+
+    except KeyboardInterrupt:
+        startup()
+
+
 
 # -------- Scripts -------- #
 
