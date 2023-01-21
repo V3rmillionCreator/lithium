@@ -65,7 +65,7 @@ def startup():
     clear_screen()
     print(dashboard)
     print(dashboard_options)
-    script_choice = input('\n                  What script would you like to run? 1/2/3/4/5/6/7: ')
+    script_choice = input('\n              What script would you like to run? 1/2/3/4/5/6/7: ')
     match script_choice:
       case '1':
         auto_pressure()
@@ -96,7 +96,6 @@ def startup():
     clear_screen()
       
 # -------- System Functions -------- #
-
 
 
 # -------- Scripts -------- #
@@ -137,6 +136,8 @@ def auto_pressure():
           print(f'{front} Ratelimited, retrying')
         case 401:
           print(f'{front} Invalid token or channel ID')
+      
+      time.sleep(delay)
 
       time.sleep(delay)
 
@@ -328,8 +329,12 @@ def packgen():
               print(f'{front} Ratelimited, retrying')
             case 401:
               print(f'{front} Invalid token or channel ID')
+          
+          time.sleep(delay)
+
         case False:
           print(f'{front} {packgen_choose_combo}')
+
 
   except KeyboardInterrupt:
     startup()
@@ -401,6 +406,7 @@ def topicgen():
               print(f'{front} Ratelimited, retrying')
             case 401:
               print(f'{front} Invalid token or channel ID')
+          time.sleep(delay)
 
         case False:
           print(f'{front} {choose_topic}')  
@@ -522,11 +528,12 @@ def crasher():
         case 200:
           input(f'{front} Sent {crasher_append}')
 
+      time.sleep(delay)
+
   except KeyboardInterrupt:
     startup()
 
 # -------- Scripts -------- #
-
 
 
 # -------- On Start -------- #
