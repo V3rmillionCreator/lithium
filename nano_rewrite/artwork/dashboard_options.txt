@@ -1,20 +1,7 @@
-             .;;;, .;;;,                   .;;;, .;;;,
-        .;;;,;;;;;,;;;;;,.;;;,       .;;;.,;;;;;,;;;;;,;;;.
-       ;;;;xXXxXXxXXxXXxXXx;;;. .,. .;;;xXXxXXxXXxXXxXX;;;;;
-   .,,.`xXX'             `xXXx,;;;;;,xXXx'            `XXx;;,,.
-  ;;;;xXX'                  `xXXx;xXXx'                 `XXx;;;;
-  `;;XX'       [1]             `XXX'          [2]         `XX;;'
- ,;;,XX      Pressure           `X'         Checker        XX,;;,
- ;;;;XX,                                                  ,XX;;;;
-  ``.;XX,         [3]                      [4]           ,XX;,''
-    ;;;;XX,      Alert                   Packgen       ,XX;;;;
-     ```.;XX,                                        ,XX;,'''
-        ;;;;XX,         [5]           [6]          ,XX;;;;
-         ```,;XX,     Topicgen    Anti Packgen  ,XX;,'''
-             ;;;;XX,                          ,XX;;;;
-              ````,;XX,                    ,XX;, '''
-                  ;;;;;XX,              ,XX;;;;
-                   `````,;XX,        ,XX;,''''
-                        ;;;;;XX,  ,XX;;;;;
-                         `````;;XX;;'''''
-                              `;;;;'
+                            [1] Pressure
+                            [2] Checker
+                            [3] Alert
+                            [4] Packgen
+                            [5] Topicgen
+                            [6] Anti Packgen
+                            [7] Channel Crasher
