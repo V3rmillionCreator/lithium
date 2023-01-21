@@ -66,7 +66,7 @@ def startup():
     clear_screen()
     print(dashboard)
     print(dashboard_options)
-    script_choice = input('\n              What script would you like to run? 1/2/3/4/5/6/7/8: ')
+    script_choice = input('\nWhat script would you like to run? 1/2/3/4/5/6/7/8: ')
     match script_choice:
       case '1':
         auto_pressure()
@@ -150,52 +150,53 @@ def auto_pressure():
 
 def afk_check():
   try:
-    while True:
-      clear_screen()
-      print(dashboard_afk_check)
+    clear_screen()
+    print(dashboard_afk_check)
 
-      if live_mode == True:
-        channel = int(input(f'{front} Channel: '))
-        token = input(f'{front} Token: ')
+    if live_mode == True:
+      channel = int(input(f'{front} Channel: '))
+      token = input(f'{front} Token: ')
 
-        invisible_ping = bool(input(f'{front} Invisible Ping (true/false): '))
-        
-        if invisible_ping:
+      invisible_ping = (input(f'{front} Invisible Ping (true/false): '))
+
+      if invisible_ping == 'true' or 'True':
           victim = int(input(f'{front} Victim (ID): '))
 
-        delay = int(input(f'{front} Delay: '))
+      elif invisible_ping == 'false' or 'False':
+        victim = None
 
-      else:
-        channel = settings.get('channel')
-        token = settings.get('token')
+      delay = int(input(f'{front} Delay: '))
+    else:
+      token = settings.get('token')
+      channel = settings.get('channel')
+      delay = settings.get('delay')
+      invisible_ping = settings.get('invisible_ping')
+      victim = settings.get('victim')
 
-        invisible_ping = settings.get('invisible_ping')
+    while True:
 
-        delay = settings.get('delay')
-        victim = settings.get('victim')
+        up_to = int(input(f'{front} How far do you want to count to?: '))
 
+        afk_check_url = f'https://discord.com/api/v9/channels/{channel}/messages'
 
-      up_to = int(input(f'{front} How far do you want to count to?: '))
+        i = 0
+        while i < up_to:
+          if invisible_ping == True:
+            afk_check_post = requests.post(afk_check_url, headers={'authorization': token}, data={'content': f'{i+1}{invisible_ping_text}<@{victim}>'})
+          
+          if invisible_ping == False:
+            afk_check_post = requests.post(afk_check_url, headers={'authorization': token}, data={'content': f'{i+1}'})
 
-      afk_check_url = f'https://discord.com/api/v9/channels/{channel}/messages'
+          if afk_check_post.status_code == 200:
+            print(f'{front} Sent {i+1}')
+            i += 1
+            time.sleep(delay)
 
-      i = 0
-      while i < up_to:
-        if invisible_ping:
-          afk_check_post = requests.post(afk_check_url, headers={'authorization': token}, data={'content': f'{i}{invisible_ping_text}<@{victim}>'})
-        else:
-          afk_check_post = requests.post(afk_check_url, headers={'authorization': token}, data={'content': f'{i}'})
-
-        if afk_check_post.status_code == 200:
-          print(f'{front} Sent {i}')
-          i += 1
-          time.sleep(delay)
-
-        elif afk_check_post.status_code == 429:
-          print(f'{front} Ratelimited, retrying')
-        elif afk_check_post.status_code == 401:
-          print(f'{front} Invalid token or channel ID')
-          break
+          elif afk_check_post.status_code == 429:
+            print(f'{front} Ratelimited, retrying')
+          elif afk_check_post.status_code == 401:
+            print(f'{front} Invalid token or channel ID')
+            break
 
 
   except KeyboardInterrupt:
