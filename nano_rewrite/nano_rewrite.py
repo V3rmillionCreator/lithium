@@ -328,6 +328,8 @@ def packgen():
               print(f'{front} Ratelimited, retrying')
             case 401:
               print(f'{front} Invalid token or channel ID')
+        case False:
+          print(f'{front} {packgen_choose_combo}')
 
   except KeyboardInterrupt:
     startup()
@@ -399,6 +401,9 @@ def topicgen():
               print(f'{front} Ratelimited, retrying')
             case 401:
               print(f'{front} Invalid token or channel ID')
+
+        case False:
+          print(f'{front} {choose_topic}')  
 
   except KeyboardInterrupt:
     startup()
