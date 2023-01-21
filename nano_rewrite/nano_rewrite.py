@@ -7,15 +7,15 @@ import random, os, sys, json, time, pyperclip, requests
 
 # -------- Import Artwork -------- #
 
-dashboard = open('artwork/dashboard.txt').read()
-dashboard_afk_check = open('artwork/dashboard_afk_check.txt').read()
-dashboard_afk_alert = open('artwork/dashboard_afk_alert.txt').read()
-dashboard_auto_pressure = open('artwork/dashboard_auto_pressure.txt').read()
-dashboard_options = open('artwork/dashboard_options.txt').read()
-dashboard_packgen = open('artwork/dashboard_packgen.txt').read()
-dashboard_topicgen = open('artwork/dashboard_topicgen.txt').read()
-dashboard_anti_packgen = open('artwork/dashboard_anti_packgen.txt').read()
-dashboard_crasher = open('artwork/dashboard_crasher.txt').read()
+dashboard = open('artwork/dashboard.txt', encoding='utf-8').read()
+dashboard_afk_check = open('artwork/dashboard_afk_check.txt', encoding='utf-8').read()
+dashboard_afk_alert = open('artwork/dashboard_afk_alert.txt', encoding='utf-8').read()
+dashboard_auto_pressure = open('artwork/dashboard_auto_pressure.txt', encoding='utf-8').read()
+dashboard_options = open('artwork/dashboard_options.txt', encoding='utf-8').read()
+dashboard_packgen = open('artwork/dashboard_packgen.txt', encoding='utf-8').read()
+dashboard_topicgen = open('artwork/dashboard_topicgen.txt', encoding='utf-8').read()
+dashboard_anti_packgen = open('artwork/dashboard_anti_packgen.txt', encoding='utf-8').read()
+dashboard_crasher = open('artwork/dashboard_crasher.txt', encoding='utf-8').read()
 
 # -------- Import Artwork -------- #
 
