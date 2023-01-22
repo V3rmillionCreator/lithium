@@ -1,10 +1,5 @@
-[1] Pressure
-[2] Checker
-[3] Alert
-[4] Packgen
-[5] Topicgen
-[6] Anti Packgen
-[7] Channel Crasher
-[8] GC Locker (early)
-[9] Add users (early)
-[10] GC Bomber
+[1] Pressure    |      [6] Anti Packgen      |      [11] Bulk Delete
+[2] Checker     |      [7] Channel Crasher   |
+[3] Alert       |      [8] GC Locker (early) |
+[4] Packgen     |      [9] Add Users (early) |
+[5] Topicgen    |      [10] GC Bomber        |

@@ -1,6 +1,8 @@
 # -------- Import Modules -------- #
 
-import random, os, sys, json, time, pyperclip, requests, asyncio, base64
+import random, os, sys, json, time, requests
+import discord
+from discord.ext import commands
 
 # -------- Import Modules -------- #
 
@@ -23,6 +25,7 @@ dashboard_crasher = open('lists/artwork/dashboard_crasher.txt', encoding='utf-8'
 dashboard_gc_botnet = open('lists/artwork/dashboard_gc_botnet.txt', encoding='utf-8').read()
 dashboard_add_users = open('lists/artwork/dashboard_add_users.txt', encoding='utf-8').read()
 dashboard_gc_bomber = open('lists/artwork/dashboard_gc_bomber.txt', encoding='utf-8').read()
+dashboard_bulk_delete = open('lists/artwork/dashboard_bulk_delete.txt', encoding='utf-8').read()
 
 # -------- Import Artwork -------- #
 
@@ -72,7 +75,7 @@ def startup():
     clear_screen()
     print(dashboard)
     print(dashboard_options)
-    script_choice = input('\nWhat script would you like to run? 1/2/3/4/5/6/7/8/9/10: ')
+    script_choice = input('\nWhat script would you like to run?: ')
     match script_choice:
       case '1':
         auto_pressure()
@@ -103,6 +106,9 @@ def startup():
 
       case '10':
         gc_bomber()
+
+      case '11':
+        bulk_delete()
 
       case _:
         startup()
@@ -736,6 +742,27 @@ def gc_bomber():
   except KeyboardInterrupt:
     startup()
 
+def bulk_delete():
+  try:
+    nano = commands.Bot(command_prefix='', self_bot=True, help_command=None)
+    clear_screen()
+    print(dashboard_bulk_delete)
+    print(f'{front} Type "lol" in the channel you want to delete messages in')
+
+    @nano.command()
+    async def lol(channel):
+        async for msg in channel.message.channel.history(limit=int(9999999)):
+            if msg.author.id == nano.user.id:
+                time.sleep(0.1)
+                try:
+                    await msg.delete()
+                    print(f'{front} Deleted')
+                except:
+                    continue
+    nano.run(token)
+
+  except KeyboardInterrupt:
+    startup()
 
 # -------- Scripts -------- #
 

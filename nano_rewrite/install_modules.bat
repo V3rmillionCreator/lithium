@@ -1,1 +1,1 @@
-pip install pyperclip requests asyncio
+pip install requests asyncio discord.py-self
