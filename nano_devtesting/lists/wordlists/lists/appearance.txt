@@ -1,0 +1,7 @@
+lip
+face
+body
+teeth
+hands
+chin
+jawline

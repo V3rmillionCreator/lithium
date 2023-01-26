@@ -1,0 +1,10 @@
+┬┌┐┌┌─┐┌─┐┬─┐┌┬┐┌─┐┌┬┐┬┌─┐┌┐┌
+││││├┤ │ │├┬┘│││├─┤ │ ││ ││││
+┴┘└┘└  └─┘┴└─┴ ┴┴ ┴ ┴ ┴└─┘┘└┘
+
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+
+Q: How do I customize my banners / I don't like the banner fonts.
+A Banner art is stored in lists/artwork and are named to their respective scripts
+
+Page: 2/2

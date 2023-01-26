@@ -1,0 +1,27 @@
+┬ ┬┌─┐┬  ┌─┐
+├─┤├┤ │  ├─┘
+┴ ┴└─┘┴─┘┴
+
+/\/\/\/\/\/\
+
+Auto Pressure • Send pressure messages to the selected channel
+AFK Checker • Automatically AFK check to the selected channel
+AFK Alert • Alert you of anybody pinging or AFK checking you in DMs
+Bulk Delete • Delete all your messages in the channel you send 'lol' in
+Channel Crasher • Append hidden unicode to your messages, causing them to lag
+
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+
+GC Botnet • Automatically make alt accounts add eachother back to a GC, making it difficult to remove you
+Add alts to GC • Like GC Botnet, but only adds accounts from your main account
+GC Bomber • Remove everybody in the selected GC
+GC Locker • Locks the GC, preventing ownership transfering and removal of other users
+
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+Packgen • Generate's random packs, very customizable
+Anti Packgen • Generate's jokes given the user's inputs, makes it hard to tell you're using a packgen
+Topicgen • Generate topics for your jokes
+Friend Users • Friend all IDs in 'ids.txt' in the list's folder
+Anti Trap • Automatically add's alt accounts to any groupchat you get added to, making it harder to trap you
+
+Page: 1/2
