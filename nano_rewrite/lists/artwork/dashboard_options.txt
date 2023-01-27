@@ -1,5 +1,0 @@
-[1] Pressure    |      [6] Anti Packgen      |      [11] Bulk Delete
-[2] Checker     |      [7] Channel Crasher   |      [12] GC Smasher
-[3] Alert       |      [8] GC Botnet (early) |
-[4] Packgen     |      [9] Add Users (early) |
-[5] Topicgen    |      [10] GC Bomber        |

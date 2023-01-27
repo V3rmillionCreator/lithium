@@ -1,8 +1,0 @@
-[1] Pressure
-[2] Checker
-[3] Alert
-[4] Packgen
-[5] Topicgen
-[6] Anti Packgen
-[7] Channel Crasher
-[8] GC Locker (early)
