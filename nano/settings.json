@@ -1,0 +1,17 @@
+{
+    "token": "",
+    "front": "nano:",
+    "your_webhook": "",
+    
+    "delay": 0,
+
+    "your_id": 836938676881719387,
+    "channel": 1068056055688478740,
+    "victim": 836938676881719387,
+
+    "invisible_ping": true,
+    "discord": true,
+    "alerts": true,
+    
+    "live_mode": true
+}
