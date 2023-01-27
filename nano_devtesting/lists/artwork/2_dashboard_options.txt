@@ -1,9 +1,0 @@
-[1] Auto Pressure   | [8] GC Bomber
-[2] AFK Checker     | [9] GC Locker
-[3] AFK Alert       | [10] Packgen
-[4] Bulk Delete     | [11] Anti Packgen
-[5] Channel Crasher | [12] Topicgen
-[6] GC Botnet       | [13] Friend users
-[7] Add alts to GC  | [14] Anti Trap
-
-[help] Help/Information
