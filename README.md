@@ -1,3 +1,3 @@
 <!DOCTYPE html>
 
-<img src="images/lithium.png">
+<img src="images/banner.png">
